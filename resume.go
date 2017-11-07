@@ -78,7 +78,7 @@ func resumeHandler(res http.ResponseWriter, req *http.Request) {
 				Title:       "Software Engineer",
 				Description: "Was responsible for all cart integration code, basically anything that sent Ordoro data out to an external eCommerce server. When a user scheduled a product import or shipment export, the code I managed day-to-day handled those tasks.",
 				StartDate:   &ordoroStartDate,
-				EndDate:     nil, // &ordoroEndDate,
+				EndDate:     nil,
 			},
 		},
 		Education: education{

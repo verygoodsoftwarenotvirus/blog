@@ -2,14 +2,14 @@
 
 
 [[projects]]
-  branch = "master"
-  name = "golang.org/x/crypto"
-  packages = ["acme","acme/autocert"]
-  revision = "9419663f5a44be8b34ca85f08abc5fe1be11f8a3"
+  name = "github.com/go-chi/chi"
+  packages = ["."]
+  revision = "f7c66f685bcab06bcce78ac212c5f3553c063d19"
+  version = "v3.3.0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "46f1afba4d3f1fbad0de1917c45e25b020122869163df72cf8a274f67994e625"
+  inputs-digest = "e8c6f3939b4fcc3bdc14fac5de8496c6cd92841ad092f9df51a7f84fef8f0a7d"
   solver-name = "gps-cdcl"
   solver-version = 1
