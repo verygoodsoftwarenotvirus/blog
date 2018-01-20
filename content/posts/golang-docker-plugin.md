@@ -1,5 +1,4 @@
 ---
-draft: true
 title: "Using Docker to compile Golang plugins on OS X"
 date: 2018-01-11T20:23:35-06:00
 ---
@@ -23,8 +22,8 @@ import(
     "github.com/org/project/api/storage/db/mongodb"
     "github.com/org/project/api/storage/db/sqlite"
     "github.com/org/project/api/storage/db/cockroachdb"
-    "github.com/org/project/api/storage/db/esotericdatabaseyouveneverheardof"
-    "github.com/org/project/api/storage/db/plainoldtextfileslol"
+    "github.com/org/project/api/storage/db/esoteric_database_you_have_never_heard_of"
+    "github.com/org/project/api/storage/db/plain_old_txt_files_lol"
 
     _ "github.com/lib/pq"
     _ "github.com/lib/repeat"
