@@ -40,6 +40,8 @@ So I built a tiny demo app that executed a very simple query, and used some code
 -buildmode=plugin not supported on darwin/amd64
 ```
 
+Note that Go returns this error even if there's a syntax error in the code. It won't even bother trying to see if your code is okay if you're trying to use `-buildmode=plugin` on an unsupported platform.
+
 Rats! In all my excitement and fervor, I never thought to check if plugins were even supported on my platform. It even says on the release notes that I linked above! `Plugin support is currently only available on Linux.` It was a nice reminder that because I sort of naturally gravitated towards being a Go developer on OS X, I'm much more frequently in a position to beta test new things than be shut out of them.
 
 But what to do about my problem?
@@ -67,6 +69,6 @@ docker build -t plugins .
 docker run --volume=$(pwd)/output:/output --rm -t plugins
 ```
 
-Run your bash script, and you'll have `output/$PKG_NAME.so` in your folder in relatively no time.
+Run your bash script, and you'll have `output/$PKG_NAME.so` in your folder in relatively no time. Note that you still have to run the program that intends to use the plugin in a linux-based Docker container, but if you've made it this far, you probably know how to do that.
 
 Hopefully this helps somebody else who faced the same predicament I did. :)
