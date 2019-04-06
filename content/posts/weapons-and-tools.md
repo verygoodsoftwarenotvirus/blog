@@ -1,6 +1,7 @@
 ---
 title: 'Weapons and Tools'
 date: 2019-02-26T19:04:35-06:00
+draft: true
 ---
 
 I like to think of myself as a builder of tools. When I build software services, I don't build things that do things, I build tools for doing things with. If I'm tasked with communicating with an external API, I don't just write the raw requests, I write a client for interacting with that external API, so that when the time arises for another person to interact with that same API, it's however much easier than it would have been.
