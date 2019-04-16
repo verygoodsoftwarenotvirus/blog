@@ -38,6 +38,11 @@ spec:
       labels:
         app: blog
     spec:
+      tolerations:
+        - key: cloud.google.com/gke-preemptible
+          operator: Equal
+          value: 'true'
+          effect: NoSchedule
       volumes:
         - name: config-volume
           configMap:

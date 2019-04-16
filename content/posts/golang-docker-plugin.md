@@ -1,11 +1,11 @@
 ---
-title: "Using Docker to compile Golang plugins on OS X"
+title: 'Using Docker to compile Golang plugins on OS X'
 date: 2018-01-11T20:23:35-06:00
 ---
 
 Okay so this might be old news to some of ya'll, but I just got it figured out, and any time you figure something out that didn't have an immediate answer online, you should blog about it, right?
 
-# The Problem
+## The Problem
 
 I've been building a side project for a while that has an API server component. It's built with Postgres in mind, but being that it's something meant to be self-hosted in the future, I wanted to provide any potential users with the option of using whatever database they chose.
 
@@ -46,7 +46,7 @@ Rats! In all my excitement and fervor, I never thought to check if plugins were 
 
 But what to do about my problem?
 
-# Docker to the rescue
+## Docker to the rescue
 
 I wasn't worried about the API being able to use the generated files, because they run entirely in Docker containers anyway. I run debug builds locally and integration tests everywhere using Docker compose. So I wondered if I could set up a Dockerfile that would add my package, build the .so file I needed, and spit it back out to my host machine so I could hand it over to my other package and get all the things I wanted out of plugins without having to futz with partitioning drives or picking a distro out and otherwise completely reconfiguring how I do my work.
 
