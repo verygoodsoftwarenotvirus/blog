@@ -6,11 +6,12 @@ local-docker-image:
 serve-local: local-docker-image
 	docker run --publish 8080:8080 local_blog:latest
 
-.PHONY: docker-image
-docker-image:
-	docker build --tag=docker.io/blog:latest --file=deploy/Dockerfile .
-
 .PHONY: publish
-publish: docker-image
+publish:
 	docker build -t docker.io/verygoodsoftwarenotvirus/blog:latest --file=deploy/Dockerfile .
 	docker push docker.io/verygoodsoftwarenotvirus/blog:latest
+
+.PHONY: publish-local
+publish-local:
+	docker build -t verygoodsoftwarenotvirus/blog:latest --file=deploy/Dockerfile .
+	docker run --volume `pwd`/dist:/blog verygoodsoftwarenotvirus/blog:latest
