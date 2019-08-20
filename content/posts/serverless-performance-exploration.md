@@ -6,7 +6,7 @@ draft: true
 
 I have a simple question that I need to know the answer to in order to go to sleep tonight: which is faster, a cloud function that responds to a pubsub topic, or an always-running service subscribed to that pubsub topic?
 
-At first glance, before writing any code or doing anything, I could bet either way and feel just as confident as if I'd done the opposite. I don't know precisely how the backend behind pubsub topic publish -> cloud function actually firing works, but it wouldn't surprise me to find out that Google has a convenient mechanism that pre-loads the cloud function so there's no cold start gap, among other tricks.
+At first glance, before writing any code or doing anything, I could bet either way and feel just as confident as if I'd done the opposite. I don't know precisely how the backend behind triggering a cloud function upon pubsub topic publish actually works, but it wouldn't surprise me to find out that Google has a convenient mechanism that pre-loads the cloud function so there's no cold start gap, among other tricks.
 
 I spun up a new project in GCP, and wrote up a quick cloud function:
 
@@ -38,7 +38,7 @@ and then had a good long think about how I could actually control this, so here'
 
 ```txt
 +------------+       +----------+
-|   Cloud    |------->  Cloud   <----------------+
+|   Cloud    <-------|  Cloud   <----------------+
 |  Function  |   2   | Pub/Sub  |                |
 +-----+------+       +----^-----+                |2
       |                   |                      |
@@ -46,7 +46,7 @@ and then had a good long think about how I could actually control this, so here'
       |                  1|                      |
       |                   |                      |
       |3                  |                      |
-      |             +-----+------+        +------+-----+
+      |             +-----+------+        +------v-----+
       +------------>+  Machine1  |        |  Machine2  |
                     +-+-------^--+        +-------+----+
                       |       |                   |
