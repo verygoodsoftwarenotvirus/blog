@@ -3,14 +3,14 @@ title: 'Weapons and Tools'
 date: 2019-02-26T19:04:35-06:00
 ---
 
+A hammer wielded by a worker trained to hit things is a tool. A hammer wielded by someone intent on doing harm is a weapon. The hammer requires no metamorphosis yet starts as a tool and ends as a weapon. So, there must be a threshold where the tool becomes a weapon, what is it?
+
 When I write software, I don't build things that do things, I build tools for doing things with. If I'm tasked with communicating with an external API, I don't just write the code for executing raw requests. I write a client for interacting with that external API, and give it an either straightforward or thought-out abstraction. This way, when the time arises for another person to interact with that same API, it's however much easier to do than it would have been.
 
 Lately, though, I've been asking myself how I could weaponize whatever tool I'm building. That external API client, in the hands of someone who knows how to use concurrency well, could be a very precise DDoS tool, for instance. Most of the time my answers are some awkward mental stretch like that, because I'm fortunate to work for a WordPress hosting company. I suppose if your evil scheme involved spinning up thousands of WordPress instances, we'd be your huckleberry.
 
 <!-- markdownlint-disable MD033 -->
 <iframe width="560" height="315" src="https://www.youtube.com/embed/plD1MbOGLfQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
-
-A hammer wielded by a worker trained to hit things is a tool. A hammer wielded by someone intent on doing harm is a weapon. The hammer requires no metamorphosis yet starts as a tool and ends as a weapon. So, there must be a threshold where the tool becomes a weapon, what is it?
 
 My first stab at answering this question was that misuse transforms tools into weapons. After all, the hammer was not meant to harm anyone, yet there are an infinite number of ways to misuse a hammer without hurting anybody at all. In our premise, however, the hammer wasn't wielded by a fool who didn't know how to use a hammer properly; it was wielded by someone intent on doing harm. Maybe what transforms a tool into a weapon is motivated misuse, which is to say that turning a tool into a weapon requires not only its deliberate misuse (weaponization), but also the desire to do so.
 
