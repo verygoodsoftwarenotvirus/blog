@@ -1,8 +1,15 @@
 ---
 title: 'Porktrack: how I turned a goofy idea into a real career'
 date: 2019-08-01T11:11:13-06:00
-draft: true
+draft: false
 ---
+
+<!-- markdownlint-disable MD033 -->
+<audio controls style="width: 100%;">
+  <source src="/03-porktrack/sounds/transcript.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+<p style="text-align: center; "><sup><sup>audio recording of this blog post</sup></sup></p>
 
 ## A time gone by
 
@@ -16,9 +23,9 @@ I was working as a security guard for a local condominium complex. I made $11 an
 <iframe width="560" height="315" src="https://www.youtube.com/embed/FrLequ6dUdM?start=8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; margin: 0 auto;"></iframe>
 
 <!-- markdownlint-disable MD033 -->
-<img src="/porktrack/images/colorapp.gif" alt="a thorough demonstration of my C# color generator Windows application" style="display: block; margin: 0 auto;">
+<img src="/03-porktrack/images/colorapp.gif" alt="a thorough demonstration of my C# color generator Windows application" style="display: block; margin: 0 auto;">
 <hr>
-<img src="/porktrack/images/problemapp.png" alt="a screenshot of my Android math quizzer app in the Android Emulator" style="display: block; margin: 0 auto;">
+<img src="/03-porktrack/images/problemapp.png" alt="a screenshot of my Android math quizzer app in the Android Emulator" style="display: block; margin: 0 auto;">
 
 ## What to build
 
@@ -64,24 +71,24 @@ What happened next is still one of the wildest things to happen to me in my enti
 [/r/music](https://web.archive.org/web/20140529114059/https://www.reddit.com/r/Music/comments/26jdry/i_made_a_website_that_estimates_what_song_you/), and it took off like a rocket. My post received thousands of upvotes and made it to the front page, which led Porktrack to receive just over 2.1M hits in the first 10 days it was live. I know this because I had the foresight to include Google Analytics on the page. The site didn't have ads on it for almost all of it, if I recall correctly (eventually did place ads on the site via AdSense).
 
 <!-- markdownlint-disable MD033 -->
-<img src="/porktrack/images/analytics.png" alt="google analytics screenshot showing traffic results from May 26th, 2014 to June 4th 2014" style="width: 100%;">
+<img src="/03-porktrack/images/analytics.png" alt="google analytics screenshot showing traffic results from May 26th, 2014 to June 4th 2014" style="width: 100%;">
 
 Most of the traffic fizzled out and died by mid June, but I kept checking the AdSense results because I had vowed to shut down Porktrack the month it stopped making enough to pay for its own droplet. Almost half a year later, I was running an errand and mindlessly checked AdSense to find that I had made $2,500 that day. It was the day before Thanksgiving, and someone had posted it to a different subreddit (that I can't manage to find at the moment), where it was gaining a similar influx of traffic from bored Americans waiting for planes. I ended up making $3,300 after all was said and done, which was cool.
 
 <!-- markdownlint-disable MD033 -->
-<img src="/porktrack/images/november-bump.png" alt="google analytics screenshot showing traffic results from November 25th, 2014 to November 30th 2014" style="width: 100%;">
+<img src="/03-porktrack/images/november-bump.png" alt="google analytics screenshot showing traffic results from November 25th, 2014 to November 30th 2014" style="width: 100%;">
 
 One of my favorite parts about this experience was other folks' reactions. People genuinely seemed to think the idea was amusing, and nobody seemed to be particularly offended. One of the other folks who lived at those condos was a guy who was part of a [morning radio trio](https://web.archive.org/web/20190405221737/https://mix947.radio.com/shows/booker-alex-sara). He came up to the guardhouse the day after it went viral telling us about this crazy website his broadcasting company had approved as a topic of morning conversation. He explained to me that radio stations all over the country get the exact same list, and it's up to the individual hosts to decide what they'll talk about. He said they hadn't opted to talk about it that morning, but he said it had been a close contender. The look on his face when he found out it was _my_ website is something I don't think I'll ever forget, if I'm lucky.
 
 Indeed, I was reached out to by a few different radio stations who let me know they spoke about my website on air. [Some](https://web.archive.org/web/20140531005207/https://www.complex.com/music/2014/05/porktrack-site-guesses-what-song-you-were-conceived-to) [larger](https://web.archive.org/web/20140527212857/https://time.com/120613/what-song-was-playing-when-you-were-conceived/) [websites](https://web.archive.org/web/20190802152949/https://acclaimmag.com/culture/porktrack-will-tell-song-probably-conceived/) also wrote about the project, which I interpret not as a sign of incoming fame or fortune, but more as a sign that content folks are desperate to talk about anything at all.
 
 <audio controls>
-  <source src="/porktrack/sounds/FM96_london_ontario_canada.mp3" type="audio/mpeg">
+  <source src="/03-porktrack/sounds/FM96_london_ontario_canada.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio>
 <sub>edited audio clip of FM96 in London, ON, CA talking about Porktrack</sub>
 <audio controls>
-  <source src="/porktrack/sounds/94_5_the_buzz_houston_texas_usa.mp3" type="audio/mpeg">
+  <source src="/03-porktrack/sounds/94_5_the_buzz_houston_texas_usa.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio>
 <sub>edited audio clip of FM94.5 The Buzz in Houston, TX, US talking about Porktrack</sub>
@@ -91,29 +98,29 @@ Your browser does not support the audio element.
 I mentioned in the comments on the Reddit post that it was my first website and I'd spent almost a month writing Python "scraping" code to get the database, and then built a website around it, yadda yadda. I thought I'd include this screenshot, as it was really motivating, and I think I even made it my desktop wallpaper for a hot second.
 
 <!-- markdownlint-disable MD033 -->
-<img src="/porktrack/images/progress.png" alt="kind words from a stranger via tweet about the work I'd done" style="display: block; margin: 0 auto; width: 100%;">
+<img src="/03-porktrack/images/progress.png" alt="kind words from a stranger via tweet about the work I'd done" style="display: block; margin: 0 auto; width: 100%;">
 
 Some folks thought the idea was good and tried their own hands at building the app. I got contacted by somebody via Reddit message who said that someone had "copied" my website and made a Dutch (I think?) version of it. This is the only evidence I have that the website existed:
 
 <!-- markdownlint-disable MD033 -->
-<img src="/porktrack/images/dutch-clone.png" alt="screenshot of a website with a similar purpose to Porktrack, with a picture of a baby wearing headphones and text in the Dutch language" style="display: block; margin: 0 auto; width: 50%;">
+<img src="/03-porktrack/images/dutch-clone.png" alt="screenshot of a website with a similar purpose to Porktrack, with a picture of a baby wearing headphones and text in the Dutch language" style="display: block; margin: 0 auto; width: 50%;">
 
 Another person had seen from the comments/tweets/looking at my code on GitHub that I was a beginner and took it upon themselves to implement it their own way and send it to me. It certainly looked nicer than any of the Python I'd written up to that point, and, for some reason, I kept this screenshot, likely smitten that anybody else would write code after something I'd written:
 
 <!-- markdownlint-disable MD033 -->
-<img src="/porktrack/images/forktrack.png" alt="screenshot of a paste bin containing a stranger's code that implemented the porktrack algorithm" style="width: 100%;">
+<img src="/03-porktrack/images/forktrack.png" alt="screenshot of a paste bin containing a stranger's code that implemented the porktrack algorithm" style="width: 100%;">
 
 It is still the Internet, though, so there was, of course, the usual pettifoggery.
 
 <!-- markdownlint-disable MD033 -->
-<img src="/porktrack/images/whyumakeshit.png" alt="screenshot of a private message I received which asks why my website is not good" style="display: block; margin: 0 auto; width: 50%;">
+<img src="/03-porktrack/images/whyumakeshit.png" alt="screenshot of a private message I received which asks why my website is not good" style="display: block; margin: 0 auto; width: 50%;">
 
 ## Database debacles
 
 Crucial to remember in all this is that for me, the request-response lifecycle, the notion of a CRUD app, was becoming obviously clear to me, and its power was palpable. "This is how the Internet works!" I rejoiced, with the realization that if I wanted to build a website for keeping track of cats I saw on the street, I was just a little schema and SQL away from having exactly that!
 
 I was on top of the world and wanted to put my new knowledge to great use, so I did what any hapless fool in that circumstance would do: I reinvented analytics. I created a table in PHPMyAdmin that had columns for some basic stuff around timestamp, source IP, referring URL, etc. I queried this new database table the way you might expect of someone who doesn't know what they're doing: by opening a connection to it. Every time someone hit the website, the page would make two MySQL connections to the exact same database, one for the tracks, one for the analytics data.
- 
+
 Shortly after launching the site, folks objected to the process by which their Porktracks were determined, noting that their parents were immigrants/die-hard country fans/otherwise would never have listened to the Hot 100. So, I very quickly adapted my scripts to account for the country and Latin charts, created new tables for them, and queried them the way I had done thus far. Yup, another two connections.
 
 This very quickly unraveled and resulted in my $5 DigitalOcean droplet soliciting union membership interest from the other droplets. I think it might actually be impossible to be stupid enough to look at a degraded web page initiating four connections to the same database and not figure out the solution, because I'm certain I would have just speechlessly accepted my plight if it were. After switching to just the one connection per request and eliminating data gathering in its entirety, I never had issues with the site going down ever again.

@@ -3,6 +3,13 @@ title: 'Weapons and Tools'
 date: 2019-02-26T19:04:35-06:00
 ---
 
+<!-- markdownlint-disable MD033 -->
+<audio controls style="width: 100%;">
+  <source src="/02-weapons-and-tools/sounds/transcript.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+<p style="text-align: center; "><sup><sup>audio recording of this blog post</sup></sup></p>
+
 A hammer wielded by a worker trained to hit things is a tool. A hammer wielded by someone intent on doing harm is a weapon. The hammer requires no metamorphosis yet starts as a tool and ends as a weapon. So, there must be a threshold where the tool becomes a weapon, what is it?
 
 When I write software, I don't build things that do things, I build tools for doing things with. If I'm tasked with communicating with an external API, I don't just write the code for executing raw requests. I write a client for interacting with that external API, and give it an either straightforward or thought-out abstraction. This way, when the time arises for another person to interact with that same API, it's however much easier to do than it would have been.
