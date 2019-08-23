@@ -22,7 +22,7 @@ I was working as a security guard for a local condominium complex. I made $11 an
 
 ## What to build
 
-The thing that is hardest about learning how to write code is knowing _what_ to work on. You can be the best and brightest student our planet has ever known, and you could spend hours absorbing the knowledge of how conditionals work, where and when to attach a method to a class, etc., but if you don't know to what end it's for, you will never apply it meaningfully, and your understanding will dwindle. I recognized this problem early on and sort of just dealt with it by coming up with (and getting myself hyped about) contrived applications to build. I was never really motivated by games programming either, which is not to cast aspersions at anybody, just a note that I had no real interest in learning how to make games and never had any game ideas that I pursued.
+The thing that is hardest about learning how to write code is knowing _what_ to work on. You can be the best and brightest student our planet has ever known, and you could spend hours absorbing the knowledge of how conditionals work, where and when to attach a method to a class, etc., but if you don't know to what end it's for, you will never apply it meaningfully, and your understanding will dwindle. I recognized this problem early on and sort of just dealt with it by coming up with (and getting myself hyped about) contrived applications to build. I was never really motivated by games programming either, which is not to cast aspersions at anybody, just a note that I had no real interest in a common vehicle for developing programming skills.
 
 ## Seeking guidance
 
