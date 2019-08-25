@@ -1,1 +1,1 @@
-# verygoodsoftwarenotvirus.ru
+# blog.verygoodsoftwarenotvirus.ru
