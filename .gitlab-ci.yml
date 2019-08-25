@@ -7,7 +7,7 @@ stages:
 before_script:
   - echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
 
-deploy_production:
+build:
   stage: build
   services:
     - docker:dind
@@ -17,7 +17,7 @@ deploy_production:
     - apk add --update --no-cache make
     - make dist
 
-deploy_production:
+deploy:
   image: google/cloud-sdk:alpine
   stage: publish
   # only:
