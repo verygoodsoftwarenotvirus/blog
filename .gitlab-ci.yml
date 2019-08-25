@@ -20,6 +20,8 @@ build:
 deploy:
   image: google/cloud-sdk:alpine
   stage: publish
+  dependencies:
+    - build
   # only:
   #   - master
   script:
