@@ -82,16 +82,18 @@ One of my favorite parts about this experience was other folks' reactions. Peopl
 
 Indeed, I was reached out to by a few different radio stations who let me know they spoke about my website on air. [Some](https://web.archive.org/web/20140531005207/https://www.complex.com/music/2014/05/porktrack-site-guesses-what-song-you-were-conceived-to) [larger](https://web.archive.org/web/20140527212857/https://time.com/120613/what-song-was-playing-when-you-were-conceived/) [websites](https://web.archive.org/web/20190802152949/https://acclaimmag.com/culture/porktrack-will-tell-song-probably-conceived/) also wrote about the project, which I interpret not as a sign of incoming fame or fortune, but more as a sign that content folks are desperate to talk about anything at all.
 
-<audio controls>
+<!-- markdownlint-disable MD033 -->
+<audio controls style="width: 100%;">
   <source src="/03-porktrack/sounds/FM96_london_ontario_canada.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio>
-<sub>edited audio clip of FM96 in London, ON, CA talking about Porktrack</sub>
-<audio controls>
-  <source src="/03-porktrack/sounds/94_5_the_buzz_houston_texas_usa.mp3" type="audio/mpeg">
+<p style="text-align: center;"><sup><sup>edited audio clip of FM96 in London, ON, CA talking about Porktrack</sup></sup></p>
+
+<audio controls style="width: 100%;">
+  <source src="/03-porktrack/sounds/FM96_london_ontario_canada.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio>
-<sub>edited audio clip of FM94.5 The Buzz in Houston, TX, US talking about Porktrack</sub>
+<p style="text-align: center;"><sup><sup>edited audio clip of FM94.5 The Buzz in Houston, TX, US talking about Porktrack</sup></sup></p>
 
 ## Encouragement and detraction
 

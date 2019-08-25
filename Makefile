@@ -1,17 +1,14 @@
-.PHONY: local-docker-image
-local-docker-image:
-	docker build --tag=local_blog:latest --file=deploy/Dockerfile .
+OUTPUT_DIR := dist
+CONFIG_FILE := config.toml
+GCLOUD_BUCKET := blog.verygoodsoftwarenotvirus.ru
 
-.PHONY: serve-local
-serve-local: local-docker-image
-	docker run --publish 8080:8080 local_blog:latest
+clean:
+	rm -rf $(OUTPUT_DIR)
 
-.PHONY: publish
-publish:
-	docker build -t docker.io/verygoodsoftwarenotvirus/blog:latest --file=deploy/Dockerfile .
-	docker push docker.io/verygoodsoftwarenotvirus/blog:latest
+$(OUTPUT_DIR):
+	docker build --tag blogbuilder:latest --file=builder.Dockerfile .
+	docker run --volume=`pwd`/$(OUTPUT_DIR):/blog blogbuilder:latest
 
-.PHONY: publish-local
-publish-local:
-	docker build -t verygoodsoftwarenotvirus/blog:latest --file=deploy/Dockerfile .
-	docker run --volume `pwd`/dist:/blog verygoodsoftwarenotvirus/blog:latest
+.PHONY: publish-gcloud
+publish-gcloud: clean $(OUTPUT_DIR)
+	gsutil -m cp -r $(OUTPUT_DIR)/* gs://$(GCLOUD_BUCKET)/

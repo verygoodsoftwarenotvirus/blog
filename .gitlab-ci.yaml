@@ -1,0 +1,20 @@
+image: docker:latest
+
+stages:
+  - publish
+
+deploy_production:
+  stage: publish
+  services:
+    - docker:dind
+  # only:
+  #   - master
+  script:
+    - apk add --update --no-cache make
+    - echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
+    - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
+    - make dist
+    - gsutil -m cp -r $(OUTPUT_DIR)/* gs://$(GCLOUD_BUCKET)/
+
+after_script:
+  - rm /tmp/$CI_PIPELINE_ID.json
