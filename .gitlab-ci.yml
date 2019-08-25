@@ -1,12 +1,21 @@
 image: docker:latest
 
 stages:
+  - build
   - publish
 
 before_script:
-  - apk add --update --no-cache make
-  - make dist
   - echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
+
+deploy_production:
+  stage: build
+  services:
+    - docker:dind
+  # only:
+  #   - master
+  script:
+    - apk add --update --no-cache make
+    - make dist
 
 deploy_production:
   image: google/cloud-sdk:alpine
