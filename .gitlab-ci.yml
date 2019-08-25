@@ -11,6 +11,8 @@ build:
   stage: build
   services:
     - docker:dind
+  artifacts:
+    untracked: true
   # only:
   #   - master
   script:
