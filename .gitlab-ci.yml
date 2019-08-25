@@ -3,18 +3,19 @@ image: docker:latest
 stages:
   - publish
 
+before_script:
+  - apk add --update --no-cache make
+  - make dist
+  - echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
+
 deploy_production:
+  image: google/cloud-sdk:alpine
   stage: publish
-  services:
-    - docker:dind
   # only:
   #   - master
   script:
-    - apk add --update --no-cache make
-    - echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
     - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
-    - make dist
-    - gsutil -m cp -r $(OUTPUT_DIR)/* gs://$(GCLOUD_BUCKET)/
+    - gsutil -m cp -r dist/* gs://blog.verygoodsoftwarenotvirus.ru/
 
 after_script:
   - rm /tmp/$CI_PIPELINE_ID.json
