@@ -20,7 +20,6 @@
     {{ if eq .Kind "home" }}
       {{ partial "head/site-verification.html" . }}
     {{ end }}
-    {{ template "_internal/google_analytics_async.html" . }}
     {{ with .OutputFormats.Get "RSS" }}{{ .RelPermalink }}{{ end }}
     <link rel="canonical" href="{{ .Permalink }}">
     {{ if (isset .Params "prev") }}
