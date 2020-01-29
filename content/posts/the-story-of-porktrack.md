@@ -188,4 +188,17 @@ I also have a [Cloud Function](https://cloud.google.com/functions/) being activa
 
 I got to handle the scaling problems by waiting for infrastructure providers to get WAY better at what they did. I got to port it from a good language to a better one, and I don't have to set a reminder on my phone to run a script and execute some SQL, because managed infrastructure will handle that for me. You can check out the current version of the site by going to [https://www.porktrack.com](https://www.porktrack.com).
 
+## Update 2/1/20
+
+The new app has been running for a few months now, I wanted to demonstrate the actual monthly costs of the app.
+
+Here's October 2019's bill:
+<img src="/03-porktrack/images/october-19-bill.png" alt="the GCP bill for Porktrack for October 2019" style="display: block; margin: 0 auto; width: 100%;">
+
+Here's November 2019's bill:
+<img src="/03-porktrack/images/november-19-bill.png" alt="the GCP bill for Porktrack for November 2019" style="display: block; margin: 0 auto; width: 100%;">
+
+Here's December 2019's bill:
+<img src="/03-porktrack/images/december-19-bill.png" alt="the GCP bill for Porktrack for December 2019" style="display: block; margin: 0 auto; width: 100%;">
+
 [^1] I mean _literally_ literally, not figuratively literally.
