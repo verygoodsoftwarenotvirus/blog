@@ -20,7 +20,7 @@ build:
     - make dist
 
 deploy:
-  image: google/cloud-sdk:alpine
+  image: google/cloud-sdk:slim
   stage: publish
   dependencies:
     - build
