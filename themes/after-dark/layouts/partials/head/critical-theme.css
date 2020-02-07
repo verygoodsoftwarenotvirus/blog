@@ -1,3 +1,12 @@
+@font-face {
+  font-family: undefined;
+  src: url("/fonts/undefined/undefined-medium.woff2"),
+       url("/fonts/undefined/undefined-medium.woff2") format("woff2");
+  font-display: swap;
+}
+* {
+  font-family: undefined !important;
+}
 :root {
   --screen-size-small: 30em; /* breakpoint reference only */
 }

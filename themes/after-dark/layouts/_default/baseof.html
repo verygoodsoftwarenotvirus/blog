@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ block "title" . }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
     <style>
-      @font-face {font-family: undefined; src: url("/fonts/undefined/undefined-medium.woff"), url("/fonts/undefined/undefined-medium.woff") format("woff");}
+      @font-face {font-family: undefined; src: url("/fonts/undefined/undefined-medium.woff2"), url("/fonts/undefined/undefined-medium.woff2") format("woff2"); font-display: swap;}
       * {font-family: undefined !important;}
     </style>
     <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ if .IsPage }}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}">
