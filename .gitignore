@@ -14,3 +14,5 @@
 .glide/
 
 dist/
+
+*/.DS_Store

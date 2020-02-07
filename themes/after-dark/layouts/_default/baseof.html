@@ -5,6 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ block "title" . }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+
+    <style>
+      @font-face {font-family: undefined; src: url("/fonts/undefined/undefined-medium.woff"), url("/fonts/undefined/undefined-medium.woff") format("woff");}
+      * {font-family: undefined !important;}
+    </style>
     <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ if .IsPage }}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}">
     <meta name="keywords" content="{{ if .Keywords }}{{ delimit .Keywords ", " }}{{ else if and .IsPage .Params.tags }}{{ delimit .Params.tags ", " }}{{ else }}{{ range $term, $val := .Site.Taxonomies.categories }}{{ lower (humanize $term) }}, {{ end }}{{ end }}">
     {{ $default_noindex_kinds := slice "section" "taxonomy" "taxonomyTerm" }}
@@ -47,4 +52,3 @@
     <footer>{{ block "footer" . }}{{ end }}</footer>
   </body>
 </html>
-
