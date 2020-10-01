@@ -1,4 +1,4 @@
-FROM jojomi/hugo:0.53
+FROM jojomi/hugo:latest
 
 ADD dist /dist
 ADD . .
