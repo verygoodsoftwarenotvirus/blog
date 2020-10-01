@@ -9,7 +9,7 @@ draft: false
   <source src="/03-porktrack/sounds/transcript.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio>
-<p style="text-align: center; "><sup><sup>audio recording of this blog post</sup></sup></p>
+<p style="text-align: center; "><sup><sup>audio recording of this blog post provided for visually impaired readers</sup></sup></p>
 
 ## A time gone by
 
@@ -186,7 +186,7 @@ So, I've rewritten Porktrack as an entirely serverless application and made a se
 
 I also have a [Cloud Function](https://cloud.google.com/functions/) being activated by a [Cloud Scheduler job](https://cloud.google.com/scheduler/) once a week on Sundays to check the Billboard site and run the same function that gets run when we build the SQLite database, and then save that data into Cloud Firestore.
 
-I got to handle the scaling problems by waiting for infrastructure providers to get WAY better at what they did. I got to port it from a good language to a better one, and I don't have to set a reminder on my phone to run a script and execute some SQL, because managed infrastructure will handle that for me. You can check out the current version of the site by going to [https://www.porktrack.com](https://www.porktrack.com).
+I got to handle the scaling problems by waiting for infrastructure providers to get WAY better at what they did. I got to port it from a good language to a better one, and I don't have to set a reminder on my phone to run a script and execute some SQL, because managed infrastructure will handle that for me. ~~You can check out the current version of the site by going to `https://www.porktrack.com`.~~
 
 ## Update 2/1/20
 
@@ -200,5 +200,7 @@ Here's November 2019's bill:
 
 Here's December 2019's bill:
 <img src="/03-porktrack/images/december-19-bill.png" alt="the GCP bill for Porktrack for December 2019" style="display: block; margin: 0 auto; width: 100%;">
+
+I've shut down the site now, since I've proven my point, and really, this site shouldn't exist. :)
 
 [^1] I mean _literally_ literally, not figuratively literally.

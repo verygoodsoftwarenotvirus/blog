@@ -24,8 +24,8 @@ deploy:
   stage: publish
   dependencies:
     - build
-  # only:
-  #   - master
+  only:
+    - main
   script:
     - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
     - gsutil -m cp -r dist/* gs://blog.verygoodsoftwarenotvirus.ru/
