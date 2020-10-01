@@ -3,5 +3,8 @@ languageCode = "en-us"
 title = "Very Good Software, Not Virus"
 theme = "after-dark"
 
+[params]
+    description = "musings of an eager pseudo-intellectual"
+
 [params.seo]
     disable_bpg = true
