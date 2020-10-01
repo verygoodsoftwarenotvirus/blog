@@ -13,8 +13,6 @@ build:
     - docker:dind
   artifacts:
     untracked: true
-  # only:
-  #   - master
   script:
     - apk add --update --no-cache make
     - make dist
