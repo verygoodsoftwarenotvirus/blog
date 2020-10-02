@@ -1,4 +1,4 @@
-FROM jojomi/hugo:0.53 AS build-stage
+FROM jojomi/hugo:latest AS build-stage
 
 ADD . .
 
