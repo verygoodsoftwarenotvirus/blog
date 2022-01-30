@@ -8,3 +8,7 @@ theme = "after-dark"
 
 [params.seo]
     disable_bpg = true
+
+# renders raw HTML
+[markup.goldmark.renderer]
+    unsafe= true
