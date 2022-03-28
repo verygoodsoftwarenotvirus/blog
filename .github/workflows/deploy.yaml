@@ -52,7 +52,7 @@ jobs:
           path: dist/
 
       - name: Delete website
-        run: gsutil -m rm -r gs://blog.verygoodsoftwarenotvirus.ru/
+        run: gsutil -m rm -a gs://blog.verygoodsoftwarenotvirus.ru/**
 
       - name: Deploy website
         run: gsutil -m cp -r dist/* gs://blog.verygoodsoftwarenotvirus.ru/
