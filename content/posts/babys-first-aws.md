@@ -1,7 +1,7 @@
 ---
 title: "Baby's First AWS Deployment"
 date: 2022-01-29T23:34:37-06:00
-draft: true
+draft: false
 ---
 
 ### Preface
