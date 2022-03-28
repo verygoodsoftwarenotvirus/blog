@@ -7,13 +7,11 @@ clean:
 	rm -rf $(OUTPUT_DIR)
 
 $(OUTPUT_DIR):
-	docker build --tag blogbuilder:latest --file=builder.Dockerfile .
-	docker run --volume=`pwd`/$(OUTPUT_DIR):/blog blogbuilder:latest
+	hugo --destination $(OUTPUT_DIR) --minify --config=config.toml
 
 .PHONY: preview
 preview:
-	docker build --tag blogpreviewer:latest --file=previewer.Dockerfile .
-	docker run --publish=80:80 blogpreviewer:latest
+	hugo server -D --port=8080
 
 .PHONY: publish-gcloud
 publish-gcloud: clean $(OUTPUT_DIR)
