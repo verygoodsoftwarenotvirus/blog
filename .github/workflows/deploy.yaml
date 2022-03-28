@@ -16,7 +16,7 @@ jobs:
           hugo-version: '0.92.1'
 
       - name: Debug
-        run: ls -Al
+        run: ls -Al themes
 
       - name: Build
         run: hugo --destination dist/ --minify --config=config.toml
