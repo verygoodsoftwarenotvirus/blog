@@ -246,7 +246,7 @@ Cloud SQL connection failed. Please see https://cloud.google.com/sql/docs/mysql/
 Cloud Run was not without its own, similar, issues. I'd be updating code and a new revision wouldn't get deployed. I realized I was probably asking too much of Terraform here, so I tried to go about it via [the official Github Action for deploying Cloud Run services](https://github.com/google-github-actions/deploy-cloudrun). Immediately, I encountered an error:
 
 ```
-ERROR: (gcloud.run.deploy) PERMISSION_DENIED: Permission 'iam.serviceaccounts.actAs' denied on service account api-server@prixfixe-dev.iam.gserviceaccount.com (or it may not exist).
+ERROR: (gcloud.run.deploy) PERMISSION_DENIED: Permission 'iam.serviceaccounts.actAs' denied on service account api-server@service-dev.iam.gserviceaccount.com (or it may not exist).
 ```
 
 After some searching, I happened upon [this StackOverflow answer](https://stackoverflow.com/questions/55788714/deploying-to-cloud-run-with-a-custom-service-account-failed-with-iam-serviceacco) for precisely this problem and realized I needed to add the `Service Account User` permission to my GitHub Deployer IAM Principal. This caused my next deploy to work, but the one after that failed with the familiar error message. I discovered that somehow the `Service Account User` role was being removed from the Google Actions user after each deploy. So I put the relevant permission (`iam.serviceaccounts.actAs`) in a custom role and gave that role to the Actions user. That worked, and I could continue deploying without interruption.
@@ -279,10 +279,84 @@ One of the worst things about AWS was feeling like I basically could not have me
 
 Additionally, GCP has these things called [Uptime Checks](https://cloud.google.com/monitoring/uptime-checks), which, uh, make HTTP requests to your hosted services and report on the latency encountered. I was able to set one up for both the user-facing static webapp and the API server being hosted in Cloud Run.
 
-![](/05-babys-first-gcp/images/api_server_uptime_check_example.png)
-![](/05-babys-first-gcp/images/webapp_uptime_check_example.png)
+![](/05-greener-cloud-pastures/images/api_server_uptime_check_example.png)
+![](/05-greener-cloud-pastures/images/webapp_uptime_check_example.png)
 
 As you can see, aside from the occasional outlier, it's been pretty reliable.
+
+## Frontend cookie frustrations
+
+The webapp for this service is a static site, which talks to the API server over HTTP, authenticated by a cookie. The API server issues a cookie for the `www.` part of the app, but the browser will not include this cookie in requests to the API server because it has a different subdomain. Something needs to watch for requests to a given set of path prefixes on the webapp and forward it to the API service.
+
+  On AWS, I was able to use a [Cloudfront Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/GettingStarted.SimpleDistribution.html) to do this:
+
+```
+ordered_cache_behavior {
+  path_pattern     = "/api/v1/*"
+  allowed_methods  = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+  cached_methods   = ["GET", "HEAD", "OPTIONS"]
+  target_origin_id = local.api_origin_id
+
+  forwarded_values {
+    query_string = true
+    headers      = ["Origin"]
+
+    cookies {
+      forward           = "whitelist"
+      whitelisted_names = ["servicecookie"]
+    }
+  }
+
+  min_ttl                = 0
+  default_ttl            = 0
+  max_ttl                = 0
+  compress               = true
+  viewer_protocol_policy = "redirect-to-https"
+}
+```
+
+It's been long enough that I can't explain to you _how_ that worked, but can testify that it _did_ work. GCP's Cloud Storage doesn't, as far as I can discern, have a comparable feature. Locally I was solving this problem by having a Caddy instance that proxied requests, so I thought maybe deploying a Caddy instance would be the least effort solution, but I'd just use Cloud Run to host it, which would mean I'm effectively paying twice for any request made to the API service.
+
+[Cloudflare Workers](https://developers.cloudflare.com/workers/) ended up being the solution that worked best for me. They have an example that I was able to very easily adapt to my usecase:
+
+```
+addEventListener('fetch', event => {
+  event.respondWith(handleRequest(event.request));
+});
+
+async function handleRequest(request) {
+  var url = new URL(request.url);
+
+  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/users/')) {
+    url.hostname = 'api.service.dev';
+  }
+
+  return await fetch(url, request);
+}
+```
+
+And the corresponding Terraform:
+
+```
+resource "cloudflare_worker_script" "dev_reverse_proxy" {
+  name    = "dev_reverse_proxy"
+  content = file("reverse_proxy.js")
+}
+
+resource "cloudflare_worker_route" "users_route" {
+  zone_id     = var.CLOUDFLARE_ZONE_ID
+  pattern     = "https://www.service.dev/users/*"
+  script_name = cloudflare_worker_script.dev_reverse_proxy.name
+}
+
+resource "cloudflare_worker_route" "api_route" {
+  zone_id     = var.CLOUDFLARE_ZONE_ID
+  pattern     = "https://www.service.dev/api/*"
+  script_name = cloudflare_worker_script.dev_reverse_proxy.name
+}
+```
+
+Cloudflare Workers come with a [quite generous free tier](https://developers.cloudflare.com/workers/platform/limits/#worker-limits), which I'm not worried about really ever exhausting.
 
 ## Pricing Outcomes
 
@@ -296,7 +370,7 @@ Since the impetus to all this was the price for AWS, it seems fair to evaluate t
 
 The prober functions basically sign up a four-person household, creates some recipes, creates a meal plan, and votes on it for all members. It then verifies that the finalizer is running by waiting until the meal plan is finalized after all votes are in. So I'm actually getting regular traffic to this service.
 
-![](/05-babys-first-gcp/images/march_bill.png)
+![](/05-greener-cloud-pastures/images/march_bill.png)
 
 Here's the bill I received for running the service in March. I've left out details specific to my account like the ID of the project, about $5 in credits towards my account, as well as things like SKU IDs which are probably not unique, but are definitely not helpful in understanding the cost.
 
