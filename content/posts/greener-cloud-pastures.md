@@ -275,7 +275,7 @@ This ended up being that my Terraform service account user wasn't listed as an o
 
 ## Monitoring improvements
 
-One of the worst things about AWS was feeling like I basically could not have metrics or decent traces, feeling like I had to use X-Ray because of the state of the observability product market. Happy to report that [Cloud Trace](https://cloud.google.com/trace) is leagues better than X-Ray, in my opinion, as is the log manager for GCP. You can view multiple log streams together with relative ease.
+One of the worst things about AWS was feeling like I basically could not have metrics or decent traces, feeling like I had to use X-Ray because of the state of the observability product market. Happy to report that [Cloud Trace](https://cloud.google.com/trace) is leagues better than X-Ray, in my opinion, as is the log manager for GCP. This service collects 100% of traces the service produces.
 
 Additionally, GCP has these things called [Uptime Checks](https://cloud.google.com/monitoring/uptime-checks), which, uh, make HTTP requests to your hosted services and report on the latency encountered. I was able to set one up for both the user-facing static webapp and the API server being hosted in Cloud Run.
 
@@ -283,6 +283,8 @@ Additionally, GCP has these things called [Uptime Checks](https://cloud.google.c
 ![](/05-greener-cloud-pastures/images/webapp_uptime_check_example.png)
 
 As you can see, aside from the occasional outlier, it's been pretty reliable.
+
+One thing I wasn't able to accomplish in either AWS or GCP was app-level metrics, specifically Go runtime metrics. Locally, I can visualize how much time is spent, for instance, collecting garbage, but I cannot do this on GCP. Rather, I probably could, but my understanding of how Cloud Run operates is that the application itself is spun up and down depending on inbound traffic, so I'm not sure that collecting them would even be useful under that scheme.
 
 ## Frontend cookie frustrations
 
