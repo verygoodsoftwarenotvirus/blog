@@ -1,56 +1,61 @@
 ---
-title: "Baby's First GCP Deployment"
+title: "Greener Cloud Pastures"
 date: 2022-01-29T23:34:37-06:00
 draft: true
 ---
 
-### Preface
+## Preface
 
-I want to take the time before writing to note that I have great respect and appreciation for the folks who work at any of the companies mentioned and/or on any of the products mentioned. Computers are hard, making stuff that is primarily meant to be consumed by them is even harder. I hope that there can be something constructive that comes out of this post, but at the very worst I hope it simply doesn't offend or disparage anybody.
+I want to take the time before writing to note that I have great respect and appreciation for the folks who work at any of the companies mentioned and/or on any of the products mentioned. Computers are hard, making stuff that is primarily meant to be consumed by them is even harder. My goals here are similar to those of that post. I hope that there can be something constructive that comes out of this post, but at the very worst I hope it simply doesn't offend or disparage anybody.
 
-### Background
+## Background
 
 In [my last article](https://blog.verygoodsoftwarenotvirus.ru/posts/babys-first-aws/), I wrote about my endeavor to get a side project deployed to a professional cloud, specifically AWS. To briefly summarize, it didn't end up going to plan, and proved to be quite expensive to host a very simple application there. I still want to host this application somewhere, so I started to look at alternatives to AWS for deployment.
 
 After all was said and done, I was left with a lot of indecision and fatigue. I liked the level of service quality I got from AWS, I just really didn't like paying for it. When I thought about all the moving bits and pieces of the application, it just didn't feel like this thing should cost more than, say, $40 at most to host per month. I was hoping I could land somewhere that would serve my app basically as well for about 1/3 of the price if at all possible. 
 
-What I wanted from a provider on the technical side was simply a way to ship a docker container and have that provider put it on the internet. Let me connect that container to a database, maybe some object storage, and a queue, and I'll be good to go. 
+What I wanted from a provider on the technical side was simply a way to ship an app container and have the provider put it on the public internet. Let me connect that container to a database, maybe some object storage, and a queue, and I'll be good to go. 
 
-### First Candidate: DOAP
+## First Candidate: DOAP
 
-I started to look at [DigitalOcean's](https://www.digitalocean.com) [App Platform](https://www.digitalocean.com/products/app-platform), which seemed to touch a lot of these bases. I could define a container that was my app, give them some details about how to connect it to a database and the internet, and leave the rest to them.
+I started to look at [DigitalOcean's](https://www.digitalocean.com) [App Platform](https://www.digitalocean.com/products/app-platform), which seemed to touch a lot of these bases. I could define a containerized app, explicitly associate a database with it, and leave the rest to them.
 
-After playing with this for about a day and a half, I ended up deciding against it. It seemed to work well enough, but I also felt like I was touching the outer limits of when to use the platform. It felt as though if my app decided to do even one more thing, I wouldn't be able to host it that way anymore, that I'd be back to the same drawing board I was sitting at in no time.
+After playing with this for about two days, I ended up deciding against it. It seemed to work well enough, but I also felt like I was gracing the outer limits of when it was appropriate to use the platform. It felt as though if my app decided to do even one more thing, I wouldn't be able to host it that way anymore, that I'd be back to the same drawing board I was sitting at in no time.
 
-I was left with the impression that the target audience for App Platform are agencies, folks approached by nontechnical parties who need a specific kind of application to be made and hosted. I could see a workflow where you basically just have one App Platform definition you use to deploy any number of hyper-similar Wordpress sites or whatever. If the client came back and asked for something that exceeded the capabilities of DOAP, the agency could just quote a wild price, but I'm trying to avoid wild prices.
+I was left with the impression that the target audience for App Platform are agencies, folks approached by non-technical parties who need a specific kind of application to be made and hosted. I could see a workflow where you basically just have one App Platform definition you use to deploy any number of hyper-similar Wordpress sites or whatever. If the client came back and asked for something that exceeded the capabilities of DOAP, the agency could just quote a wild price, but I'm trying to avoid wild prices.
 
-### DigitalOcean shortcomings
+## DigitalOcean shortcomings
 
-One thing I made very heavy use of on AWS was managed services, specifically RDS and SQS. Being able to have a queue without having to worry about that queue's infrastructure was very very nice, but DigitalOcean has no analog for these. You could probably write up an App Platform template for deploying a containerized version of [NATS](https://nats.io) or whatever, and [they do have a managed Redis offering](https://www.digitalocean.com/products/managed-databases-redis), but it's much more expensive ($15/month at the time of writing) than SQS (consumption-based, with a generous free tier). I just sort of liked not having to think about it as anything other than a generic queue.
+One thing I made very heavy use of on AWS was managed services, specifically RDS and SQS. Being able to have a queue without having to worry about that queue's infrastructure was very nice, but DigitalOcean has no analog for these. You could probably write up an App Platform template for deploying a containerized version of [NATS](https://nats.io) or whatever, and [they do have a managed Redis offering](https://www.digitalocean.com/products/managed-databases-redis), but it's much more expensive ($15/month at the time of writing) than SQS (consumption-based, with a generous free tier, one of the few things that didn't cost me money on AWs). I also just sort of liked not having to think about it as anything other than a generic queue.
 
-### Kubernetes
+## Kubernetes
 
-One thing DO does have that is actually priced fairly decently is [their managed Kubernetes offering](https://docs.digitalocean.com/products/kubernetes/). Previously I have stated that using Kubernetes is a mistake until proven otherwise. I violated these tenets and explored using Kubernetes for this app in DigitalOcean for about 3 days before I gave up. I should have trusted my gut.
+One thing DigitalOcean does have that is actually priced fairly decently is [their managed Kubernetes offering](https://docs.digitalocean.com/products/kubernetes/). Previously I have stated that using Kubernetes is a mistake until proven otherwise. I violated these tenets and explored using Kubernetes for this app in DigitalOcean for about 3 days before I gave up. I should have trusted my gut.
 
 I could probably write an article just on why Kubernetes didn't work out, but I'll spare us all the misery. I got as far as having a local Kubernetes setup for the app that worked, but could never manage to get the one in DigitalOcean connected to the public internet.
 
-### Where to now?
+## Where to now?
 
 So I've fully ruled out DigitalOcean, both App Platform and the Kubernetes offering, which leaves only [Azure](https://azure.microsoft.com/) and [Google Cloud Platform](https://cloud.google.com/) (GCP).
 
-Azure has a container hosting solution that sounds most akin to ECS called [Azure Container Apps](https://azure.microsoft.com/en-us/services/container-apps/#features), but it's in preview, and was launched [very recently](https://azure.microsoft.com/en-us/updates/public-preview-azure-container-apps/). As such, I don't really have a lot of confidence developing for the platform. They also have [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/#overview), a managed Kubernetes offering, but I'm not doing that either, for aforementioned reasons.
+Azure has [a number of container hosting solutions](https://azure.microsoft.com/en-us/product-categories/containers/), but the one that seems most akin to ECS is called [Azure Container Apps](https://azure.microsoft.com/en-us/services/container-apps/#features). It's in preview, and [was launched very recently](https://azure.microsoft.com/en-us/updates/public-preview-azure-container-apps/), so while I'm sure it's probably fine, I don't really have a lot of confidence using it just yet. They also have [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/#overview), a managed Kubernetes offering, but I'm not doing that either, for the aforementioned reasons.
 
-I've used GCP before in my career and for side projects. When I worked at WP Engine, we made very heavy use of GCP for all of our internal software and a not insignificant chunk of our actual business offering as well, so I had a distant impression of its reliability. Somewhat like my AWS experience, I'd only really bothered writing code that deployed there, not actually deploying it.
+I've used GCP before in my career and for side projects. This very blog is hosted there, as a static site, and I pay something like $20/year all said and done. When I worked at WP Engine, we made very heavy use of GCP for all of our internal software and a not insignificant chunk of our actual business offering as well, so I had a distant impression of its production reliability. Somewhat like my AWS experience, I'd only really bothered writing code that deployed there, not actually deploying it. (I did have a [fairly successful endeavor a few years ago](https://blog.verygoodsoftwarenotvirus.ru/posts/the-story-of-porktrack/) to rebuild and redeploy an old application to Cloud Run that went very well)
 
-I also had a [fairly successful endeavor a few years ago](https://blog.verygoodsoftwarenotvirus.ru/posts/the-story-of-porktrack/) to rebuild and redeploy an old application to Cloud Run that went very well. I decided to give GCP a shot.
+I decided to give GCP a shot.
 
-### App recap
+## App recap
 
-To briefly recall the app we're talking about and its needs, it's a meal management app. You put in recipes, create meal plans for the week from those recipes, and allow others in your household to participate. From a technical perspective, it needs a database, an event queue, and something to trigger code execution according to those events.
+To briefly recall the app we're talking about and its needs, it's a meal management app. You put in recipes, create meal plans for the week from those recipes, and allow others in your household to participate. From a technical perspective, it needs:
 
-I decided to use [Cloud Run](https://cloud.google.com/run) to host the server container, [Cloud SQL](https://cloud.google.com/sql) for the database, [Cloud Pub/Sub](https://cloud.google.com/pubsub) for the event queue, and [Cloud Functions](https://cloud.google.com/functions) for the event responders. GCP [supports assigning Cloud Functions as responders to Pub/Sub events](https://cloud.google.com/scheduler/docs/tut-pub-sub).
+- a database
+- a server container
+- an event queue
+- something to trigger code execution when events arrive on the queue
 
-### GCP Terraform Obstacles
+I decided to use [Cloud Run](https://cloud.google.com/run) to host the server container, [Cloud SQL](https://cloud.google.com/sql) for the database, [Cloud Pub/Sub](https://cloud.google.com/pubsub) for the event queue, and [Cloud Functions](https://cloud.google.com/functions) for the event responders. GCP [supports assigning Cloud Functions as responders to Pub/Sub events](https://cloud.google.com/scheduler/docs/tut-pub-sub), like how you can [configure Lambda functions to respond to SQS events](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html).
+
+## GCP Terraform Obstacles
 
 One goal I maintained from the prior effort was to have it so that the full environment could be spun up from nothing. That I could take a bare project with no resources and after one CI task run, have the full app running and available. This was beneficial last time in reducing costs, since I could use Terraform to destroy everything in one run if I met this condition.
 
@@ -69,7 +74,7 @@ After a while of playing API authorization whack-a-mole, I discovered what I tho
 
 This didn't work. In fact, it did the opposite of working, because I (foolishly) decided to add a bunch of the aforementioned resources that I had already enabled by hand, and hadn't granted the lesser Terraform Cloud user rights to disable these things, it really messed with my Terraform state. Thankfully, cleaning that up is easy, but I learned so that you don't have to, hopefully.
 
-Additionally, for things like [Domain verification](https://support.google.com/a/answer/60216?hl=en) (ugh), there didn't immediately appear to be a good way of doing that automatically, which I'm not exactly against.
+Additionally, for things like [Domain verification (ugh)](https://support.google.com/a/answer/60216?hl=en), there didn't immediately appear to be a good way of doing that automatically, which I'm not exactly against.
 
 I will say, the GCP Terraform provider does a better job of catching errors in the `terraform validate` process. Many times with the AWS work, I would have something pass `validate`, but fail to `apply` for something that could have totally been caught in `validate`. I very much appreciate whoever is responsible for this improvement.
 
@@ -137,7 +142,7 @@ resource "google_cloud_run_service" "api_server" {
 }
 ```
 
-This, combined with some new code to handle environment-mounted secrets, lead to my first "successful" deployment to Cloud Run. Only I couldn't access it because I hadn't granted `allUsers` the permission to invoke this particular Cloud Run application. I nice default, I think, but requires more terraform IAM finagling:
+This, combined with some new code to handle environment-mounted secrets, lead to my first "successful" deployment to Cloud Run. Only I couldn't access it because I hadn't granted `allUsers` the permission to invoke this particular Cloud Run application. Nice default, I think, but requires more terraform IAM finagling:
 
 ```
 data "google_iam_policy" "public_access" {
@@ -162,7 +167,7 @@ This is called out in [the Terraform docs for GCP's Cloud Run resource](https://
 
 ## Cloud run DNS woes
 
-Another thing I couldn't manage to automate my way out of was the explicit domain name association that GCP requires for Cloud Run. When you create a Cloud Run service, you get a url like `https://app-name-blahblahblah.run.app`, which you can't just CNAME because of DNS. So you instead have to create a `Domain Mapping` that seems to tell Google's routers "it's okay to respect this other domain". The IAM around this is really funky, though. [The Cloud Run IAM Roles documentation](https://cloud.google.com/run/docs/reference/iam/roles) page explicitly calls out that:
+Another thing I couldn't manage to automate my way out of was the explicit domain name association that GCP requires for Cloud Run. When you create a Cloud Run service, you get a url like `https://app-name-blah-blah-blah.run.app`, which you can't just CNAME. So you instead have to create a `Domain Mapping` that seems to tell Google's routers "it's okay to respect this other domain". The IAM around this is really funky, though. [The Cloud Run IAM Roles documentation](https://cloud.google.com/run/docs/reference/iam/roles) page explicitly calls out that:
 
 ```
 Roles only apply to Cloud Run services, they do not apply to Cloud Run domain mappings. The Project > Editor role is needed to create or update domain mappings.
@@ -178,9 +183,9 @@ That link would take me to a page that gleefully told me I had already verified 
 
 ## Cloud Functions vs. Lambda
 
-When I used Lambda, I quite liked that I could provide it a compiled binary in a zip folder. It felt a little old fashioned, but it definitely worked. Cloud Functions works with a little more magic. Rather than provide a binary, you upload code to a [Google Cloud Storage](https://cloud.google.com/storage) bucket, and that sets up a [Cloud Build](https://cloud.google.com/build) trigger, which runs a preconfigured script against the code in question depending on your chosen runtime. Getting even a simple Cloud Function to upload via Terraform proved very difficult for me.
+When I used Lambda, I quite liked that I could provide it a compiled binary in a zip folder. It felt a little old fashioned, but it definitely worked. Cloud Functions works with a little more magic, the bad kind. Rather than provide a binary, you upload code to a [Google Cloud Storage](https://cloud.google.com/storage) bucket, and that sets up a [Cloud Build](https://cloud.google.com/build) trigger, which runs a preconfigured script against the code in question depending on your chosen runtime. Getting even a simple Cloud Function to upload via Terraform proved very difficult for me.
 
-The long and short of it is, while nearly all the examples provided work, they do so because they don't use anything but the standard library. If you want to use any of your own code as libraries in your Cloud Function, you basically have to have a go.mod file _per Cloud Function._ This is pretty different from how I write Go code day-to-day, where I generally have exactly one `go.mod` file per repository. No big whoop, it actually makes sense in part because the latest version of Go supported by Cloud Functions is 1.16, and I've been using 1.18 since release, but I can specify 1.16 in the custom mod file to maintain compatibility.
+While nearly all the provided example Cloud Function code samples work, they do so because they don't use anything but the standard library. If you want to use any of your own, private code as libraries in your Cloud Function, you basically have to have a go.mod file _per Cloud Function._ This is pretty different from how I write Go code day-to-day, where I generally have exactly one `go.mod` file per repository. No big whoop.
 
 Building Cloud Function artifacts [can be done with the `pack` CLI](https://buildpacks.io/docs/tools/pack/) for local testing, but you can't ship those artifacts to Cloud Functions, you can only ship raw code to be built by Cloud Build. Maybe it's documented somewhere, but this whole build process felt very opaque and yields confusing errors that didn't aid me in diagnosis. Some examples:
 
@@ -246,6 +251,14 @@ ERROR: (gcloud.run.deploy) PERMISSION_DENIED: Permission 'iam.serviceaccounts.ac
 
 After some searching, I happened upon [this StackOverflow answer](https://stackoverflow.com/questions/55788714/deploying-to-cloud-run-with-a-custom-service-account-failed-with-iam-serviceacco) for precisely this problem and realized I needed to add the `Service Account User` permission to my GitHub Deployer IAM Principal. This caused my next deploy to work, but the one after that failed with the familiar error message. I discovered that somehow the `Service Account User` role was being removed from the Google Actions user after each deploy. So I put the relevant permission (`iam.serviceaccounts.actAs`) in a custom role and gave that role to the Actions user. That worked, and I could continue deploying without interruption.
 
+## Database Connectivity
+
+On AWS, whenever I needed to talk to the database, I employed this awful trick where I would spin up a Cloud 9 instance, and use the terminal for that instance to connect to the RDS instance. Since the RDS instance wasn't configured for public connectivity, this was the only way I could manage to run raw queries against it.
+
+For GCP, this is even harder, because by default the Postgres instances are configured to reject connections that don't have TLS enabled, and the certs you can download from the GCP interface don't seem to work on localhost or with an app like [Beekeeper](https://github.com/beekeeper-studio/beekeeper-studio). You can connect via Cloud Shell, but you can't use the certs there either.
+
+The only way I've found to consistently run raw queries against the database is to temporarily disable the TLS requirement, and then connect from the Cloud Shell while remembering to reactivate it. Kind of painful, but not the world's biggest inconvenience.
+
 ## Google Cloud Console
 
 Just a quick note, but I quite like it, actually. It's just as easy to find things on GCP as it is on AWS. One complaint is that the interface, at times, completely fails to work if you disable common NoScript domains like `googletagmanager.com`.
@@ -258,9 +271,9 @@ This project also makes use of Google Cloud Storage for the static page that int
 The bucket you tried to create is a domain name owned by another user
 ```
 
-This ended up being that my Terraform service account user wasn't listed as an owner of the domain in the Webmaster controls. Adding it was easy enough, but the form didn't trim whitespace, so complained that the service account I provided it with (which has a `.iam.gserviceaccount.com` domain name) was not a valid Google account. Deleting the very hard to discern leading space was hte ticket, though.
+This ended up being that my Terraform service account user wasn't listed as an owner of the domain in the Webmaster controls. Adding it was easy enough, but the form didn't trim whitespace, so complained that the service account I provided it with (which has a `.iam.gserviceaccount.com` domain name) was not a valid Google account. Deleting the very hard to notice leading space was the ticket, though.
 
-### Monitoring improvements
+## Monitoring improvements
 
 One of the worst things about AWS was feeling like I basically could not have metrics or decent traces, feeling like I had to use X-Ray because of the state of the observability product market. Happy to report that [Cloud Trace](https://cloud.google.com/trace) is leagues better than X-Ray, in my opinion, as is the log manager for GCP. You can view multiple log streams together with relative ease.
 
@@ -271,9 +284,9 @@ Additionally, GCP has these things called [Uptime Checks](https://cloud.google.c
 
 As you can see, aside from the occasional outlier, it's been pretty reliable.
 
-### Pricing Outcomes
+## Pricing Outcomes
 
-Since the impetus to all this was the price at AWS, it seems fair to evaluate the price of running the host on GCP. Just so we're all up to date, here's what the bill is for:
+Since the impetus to all this was the price for AWS, it seems fair to evaluate the price of running on GCP. Just so we're all up to date, here's what the bill is for:
 
 - A Cloud SQL Postgres 13 instance running 24/7
 - A Cloud Run API server running when traffic is received
@@ -285,9 +298,9 @@ The prober functions basically sign up a four-person household, creates some rec
 
 ![](/05-babys-first-gcp/images/march_bill.png)
 
-Here's the bill I received for running the service in March. I've left out details specific to my account, as well as things like SKU IDs which are probably not unique, but are definitely not helpful in understanding the cost.
+Here's the bill I received for running the service in March. I've left out details specific to my account like the ID of the project, about $5 in credits towards my account, as well as things like SKU IDs which are probably not unique, but are definitely not helpful in understanding the cost.
 
-<!-- spacing -->
+<!-- take a deep breath -->
 
 | Service description | SKU description                                                            | Cost type | Usage start date | Usage end date | Usage amount | Usage unit            | Unrounded Cost ($) | Cost ($) | 
 |---------------------|----------------------------------------------------------------------------|-----------|------------------|----------------|--------------|-----------------------|--------------------|----------| 
@@ -326,7 +339,7 @@ Here's the bill I received for running the service in March. I've left out detai
 | Cloud Pub/Sub       | Message Delivery Basic                                                     | Usage     | 2022-03-01       | 2022-03-31     | 0.003        | tebibyte              | 0                  | 0        | 
 | Cloud Pub/Sub       | Intra-region data delivery                                                 | Usage     | 2022-03-01       | 2022-03-31     | 1.102        | gibibyte              | 0                  | 0        | 
 
-### Conclusion
+## Conclusion
 
 I knew going into this I could probably hit a hosting target price of about $40, but hitting $27 was just very sweet. This puts the GCP cost at about $100 less than the equivalent AWS hosting. Even with [the recent changes to pricing that everybody seemed to freak out about](https://cloud.google.com/blog/products/infrastructure/updates-to-google-clouds-infrastructure-pricing), to the best of my ability, I think this would raise my cost by maybe $5/month in the worst circumstances?
 
