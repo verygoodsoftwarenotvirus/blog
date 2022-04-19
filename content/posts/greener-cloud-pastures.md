@@ -1,6 +1,6 @@
 ---
 title: "Greener Cloud Pastures"
-date: 2022-01-29T23:34:37-06:00
+date: 2022-03-29T23:04:56-06:00
 draft: true
 ---
 
@@ -12,9 +12,9 @@ I want to take the time before writing to note that I have great respect and app
 
 In [my last article](https://blog.verygoodsoftwarenotvirus.ru/posts/babys-first-aws/), I wrote about my endeavor to get a side project deployed to a professional cloud, specifically AWS. To briefly summarize, it didn't end up going to plan, and proved to be quite expensive to host a very simple application there. I still want to host this application somewhere, so I started to look at alternatives to AWS for deployment.
 
-After all was said and done, I was left with a lot of indecision and fatigue. I liked the level of service quality I got from AWS, I just really didn't like paying for it. When I thought about all the moving bits and pieces of the application, it just didn't feel like this thing should cost more than, say, $40 at most to host per month. I was hoping I could land somewhere that would serve my app basically as well for about 1/3 of the price if at all possible. 
+After all was said and done, I was left with a lot of indecision and fatigue. I liked the level of service quality I got from AWS, I just really didn't like paying for it. When I thought about all the moving bits and pieces of the application, it just didn't feel like this thing should cost more than, say, $40 at most to host per month. I was hoping I could land somewhere that would serve my app basically as well for about 1/3 of the price if at all possible.
 
-What I wanted from a provider on the technical side was simply a way to ship an app container and have the provider put it on the public internet. Let me connect that container to a database, maybe some object storage, and a queue, and I'll be good to go. 
+What I wanted from a provider on the technical side was simply a way to ship an app container and have the provider put it on the public internet. Let me connect that container to a database, maybe some object storage, and a queue, and I'll be good to go.
 
 ## First Candidate: DOAP
 
@@ -378,42 +378,42 @@ Here's the bill I received for running the service in March. I've left out detai
 
 <!-- take a deep breath -->
 
-| Service description | SKU description                                                            | Cost type | Usage start date | Usage end date | Usage amount | Usage unit            | Unrounded Cost ($) | Cost ($) | 
-|---------------------|----------------------------------------------------------------------------|-----------|------------------|----------------|--------------|-----------------------|--------------------|----------| 
-| Cloud SQL           | Cloud SQL for PostgreSQL: Zonal - Micro instance in Americas               | Usage     | 2022-03-01       | 2022-03-31     | 742.765      | hour                  | 7.799017           | 7.8      | 
-| Stackdriver Trace   | Spans ingested                                                             | Usage     | 2022-03-01       | 2022-03-31     | "36,903,907" | count                 | 6.877799           | 6.88     | 
-| Cloud SQL           | Cloud SQL for PostgreSQL: Zonal - Standard storage in Americas             | Usage     | 2022-03-01       | 2022-03-31     | 19.994       | gibibyte month        | 3.398864           | 3.4      | 
-| Secret Manager      | Secret access operations                                                   | Usage     | 2022-03-01       | 2022-03-31     | "1,004,162"  | count                 | 2.982484           | 2.98     | 
-| Cloud Run           | CPU Allocation Time                                                        | Usage     | 2022-03-01       | 2022-03-31     | "124,279.60" | vCPU-second           | 2.981886           | 2.98     | 
-| Cloud Functions     | CPU Time                                                                   | Usage     | 2022-03-01       | 2022-03-31     | "197,184.96" | GHz-second            | 1.968551           | 1.97     | 
-| Cloud Functions     | Memory Time                                                                | Usage     | 2022-03-01       | 2022-03-31     | "123,073.24" | gibibyte second       | 0.304218           | 0.3      | 
-| Secret Manager      | Secret version replica storage                                             | Usage     | 2022-03-01       | 2022-03-31     | 8.997        | month                 | 0.179528           | 0.18     | 
-| Cloud Run           | Memory Allocation Time                                                     | Usage     | 2022-03-01       | 2022-03-31     | "62,138.05"  | GiB-second            | 0.154453           | 0.15     | 
-| Cloud Storage       | Standard Storage US Multi-region                                           | Usage     | 2022-03-01       | 2022-03-31     | 5.635        | gibibyte month        | 0.146461           | 0.15     | 
-| Cloud Storage       | Multi-Region Standard Class B Operations                                   | Usage     | 2022-03-01       | 2022-03-31     | "84,984"     | count                 | 0.033944           | 0.03     | 
-| Cloud Run           | Cloud Run Network Egress via Carrier Peering Network - North America Based | Usage     | 2022-03-01       | 2022-03-31     | 1.049        | gibibyte              | 0.01781            | 0.02     | 
-| Cloud Storage       | NA-based Storage egress via peered/interconnect network                    | Usage     | 2022-03-01       | 2022-03-31     | 0.231        | gibibyte              | 0.009187           | 0.01     | 
-| Cloud Storage       | Multi-Region Standard Class A Operations                                   | Usage     | 2022-03-01       | 2022-03-29     | 194          | count                 | 0.00097            | 0        | 
-| Cloud SQL           | Network Internet Egress from Americas to Americas                          | Usage     | 2022-03-01       | 2022-03-31     | 0.005        | gibibyte              | 0.000932           | 0        | 
-| Cloud SQL           | Network Internet Egress from Americas to EMEA                              | Usage     | 2022-03-01       | 2022-03-31     | 0.001        | gibibyte              | 0.000133           | 0        | 
-| Cloud SQL           | Network Internet Egress from Americas to China                             | Usage     | 2022-03-01       | 2022-03-30     | 0            | gibibyte              | 0.000003           | 0        | 
-| Cloud SQL           | Network Internet Egress from Americas to APAC                              | Usage     | 2022-03-06       | 2022-03-26     | 0            | gibibyte              | 0.000002           | 0        | 
-| Cloud Run           | Memory Allocation Time                                                     | Usage     | 2022-03-06       | 2022-03-31     | 1.75         | GiB-second            | 0                  | 0        | 
-| Cloud Run           | Requests                                                                   | Usage     | 2022-03-01       | 2022-03-31     | "1,049,960"  | Requests              | 0                  | 0        | 
-| Cloud Run           | Cloud Run Network Intra Region Egress                                      | Usage     | 2022-03-01       | 2022-03-31     | 2.496        | gibibyte              | 0                  | 0        | 
-| Cloud Scheduler     | Jobs                                                                       | Usage     | 2022-03-01       | 2022-03-31     | 62           | Job-days              | 0                  | 0        | 
-| Cloud Functions     | Invocations                                                                | Usage     | 2022-03-01       | 2022-03-31     | "1,011,934"  | invocations           | 0                  | 0        | 
-| Cloud Functions     | Network Egress from us-central1                                            | Usage     | 2022-03-01       | 2022-03-31     | 1.549        | gibibyte              | 0                  | 0        | 
-| Cloud Functions     | CPU Time                                                                   | Usage     | 2022-03-01       | 2022-03-31     | 13.06        | GHz-second            | 0                  | 0        | 
-| Cloud Functions     | Memory Time                                                                | Usage     | 2022-03-01       | 2022-03-31     | 175.525      | gibibyte second       | 0                  | 0        | 
-| Cloud Logging       | Log Volume                                                                 | Usage     | 2022-03-01       | 2022-03-31     | 4.507        | gibibyte              | 0                  | 0        | 
-| Cloud Build         | Build time                                                                 | Usage     | 2022-03-15       | 2022-03-29     | 32.583       | minutes of build time | 0                  | 0        | 
-| Cloud Storage       | Download Worldwide Destinations (excluding Asia & Australia)               | Usage     | 2022-03-01       | 2022-03-31     | 0.042        | gibibyte              | 0                  | 0        | 
-| Cloud Storage       | Regional Standard Class B Operations                                       | Usage     | 2022-03-15       | 2022-03-29     | 107          | count                 | 0                  | 0        | 
-| Cloud Storage       | Standard Storage US Regional                                               | Usage     | 2022-03-01       | 2022-03-31     | 0.099        | gibibyte month        | 0                  | 0        | 
-| Cloud SQL           | Network Google Egress from Americas to Americas                            | Usage     | 2022-02-28       | 2022-03-31     | 5.633        | gibibyte              | 0                  | 0        | 
-| Cloud Pub/Sub       | Message Delivery Basic                                                     | Usage     | 2022-03-01       | 2022-03-31     | 0.003        | tebibyte              | 0                  | 0        | 
-| Cloud Pub/Sub       | Intra-region data delivery                                                 | Usage     | 2022-03-01       | 2022-03-31     | 1.102        | gibibyte              | 0                  | 0        | 
+| Service description | SKU description                                                            | Cost type | Usage start date | Usage end date | Usage amount | Usage unit            | Unrounded Cost ($) | Cost ($) |
+|---------------------|----------------------------------------------------------------------------|-----------|------------------|----------------|--------------|-----------------------|--------------------|----------|
+| Cloud SQL           | Cloud SQL for PostgreSQL: Zonal - Micro instance in Americas               | Usage     | 2022-03-01       | 2022-03-31     | 742.765      | hour                  | 7.799017           | 7.8      |
+| Stackdriver Trace   | Spans ingested                                                             | Usage     | 2022-03-01       | 2022-03-31     | "36,903,907" | count                 | 6.877799           | 6.88     |
+| Cloud SQL           | Cloud SQL for PostgreSQL: Zonal - Standard storage in Americas             | Usage     | 2022-03-01       | 2022-03-31     | 19.994       | gibibyte month        | 3.398864           | 3.4      |
+| Secret Manager      | Secret access operations                                                   | Usage     | 2022-03-01       | 2022-03-31     | "1,004,162"  | count                 | 2.982484           | 2.98     |
+| Cloud Run           | CPU Allocation Time                                                        | Usage     | 2022-03-01       | 2022-03-31     | "124,279.60" | vCPU-second           | 2.981886           | 2.98     |
+| Cloud Functions     | CPU Time                                                                   | Usage     | 2022-03-01       | 2022-03-31     | "197,184.96" | GHz-second            | 1.968551           | 1.97     |
+| Cloud Functions     | Memory Time                                                                | Usage     | 2022-03-01       | 2022-03-31     | "123,073.24" | gibibyte second       | 0.304218           | 0.3      |
+| Secret Manager      | Secret version replica storage                                             | Usage     | 2022-03-01       | 2022-03-31     | 8.997        | month                 | 0.179528           | 0.18     |
+| Cloud Run           | Memory Allocation Time                                                     | Usage     | 2022-03-01       | 2022-03-31     | "62,138.05"  | GiB-second            | 0.154453           | 0.15     |
+| Cloud Storage       | Standard Storage US Multi-region                                           | Usage     | 2022-03-01       | 2022-03-31     | 5.635        | gibibyte month        | 0.146461           | 0.15     |
+| Cloud Storage       | Multi-Region Standard Class B Operations                                   | Usage     | 2022-03-01       | 2022-03-31     | "84,984"     | count                 | 0.033944           | 0.03     |
+| Cloud Run           | Cloud Run Network Egress via Carrier Peering Network - North America Based | Usage     | 2022-03-01       | 2022-03-31     | 1.049        | gibibyte              | 0.01781            | 0.02     |
+| Cloud Storage       | NA-based Storage egress via peered/interconnect network                    | Usage     | 2022-03-01       | 2022-03-31     | 0.231        | gibibyte              | 0.009187           | 0.01     |
+| Cloud Storage       | Multi-Region Standard Class A Operations                                   | Usage     | 2022-03-01       | 2022-03-29     | 194          | count                 | 0.00097            | 0        |
+| Cloud SQL           | Network Internet Egress from Americas to Americas                          | Usage     | 2022-03-01       | 2022-03-31     | 0.005        | gibibyte              | 0.000932           | 0        |
+| Cloud SQL           | Network Internet Egress from Americas to EMEA                              | Usage     | 2022-03-01       | 2022-03-31     | 0.001        | gibibyte              | 0.000133           | 0        |
+| Cloud SQL           | Network Internet Egress from Americas to China                             | Usage     | 2022-03-01       | 2022-03-30     | 0            | gibibyte              | 0.000003           | 0        |
+| Cloud SQL           | Network Internet Egress from Americas to APAC                              | Usage     | 2022-03-06       | 2022-03-26     | 0            | gibibyte              | 0.000002           | 0        |
+| Cloud Run           | Memory Allocation Time                                                     | Usage     | 2022-03-06       | 2022-03-31     | 1.75         | GiB-second            | 0                  | 0        |
+| Cloud Run           | Requests                                                                   | Usage     | 2022-03-01       | 2022-03-31     | "1,049,960"  | Requests              | 0                  | 0        |
+| Cloud Run           | Cloud Run Network Intra Region Egress                                      | Usage     | 2022-03-01       | 2022-03-31     | 2.496        | gibibyte              | 0                  | 0        |
+| Cloud Scheduler     | Jobs                                                                       | Usage     | 2022-03-01       | 2022-03-31     | 62           | Job-days              | 0                  | 0        |
+| Cloud Functions     | Invocations                                                                | Usage     | 2022-03-01       | 2022-03-31     | "1,011,934"  | invocations           | 0                  | 0        |
+| Cloud Functions     | Network Egress from us-central1                                            | Usage     | 2022-03-01       | 2022-03-31     | 1.549        | gibibyte              | 0                  | 0        |
+| Cloud Functions     | CPU Time                                                                   | Usage     | 2022-03-01       | 2022-03-31     | 13.06        | GHz-second            | 0                  | 0        |
+| Cloud Functions     | Memory Time                                                                | Usage     | 2022-03-01       | 2022-03-31     | 175.525      | gibibyte second       | 0                  | 0        |
+| Cloud Logging       | Log Volume                                                                 | Usage     | 2022-03-01       | 2022-03-31     | 4.507        | gibibyte              | 0                  | 0        |
+| Cloud Build         | Build time                                                                 | Usage     | 2022-03-15       | 2022-03-29     | 32.583       | minutes of build time | 0                  | 0        |
+| Cloud Storage       | Download Worldwide Destinations (excluding Asia & Australia)               | Usage     | 2022-03-01       | 2022-03-31     | 0.042        | gibibyte              | 0                  | 0        |
+| Cloud Storage       | Regional Standard Class B Operations                                       | Usage     | 2022-03-15       | 2022-03-29     | 107          | count                 | 0                  | 0        |
+| Cloud Storage       | Standard Storage US Regional                                               | Usage     | 2022-03-01       | 2022-03-31     | 0.099        | gibibyte month        | 0                  | 0        |
+| Cloud SQL           | Network Google Egress from Americas to Americas                            | Usage     | 2022-02-28       | 2022-03-31     | 5.633        | gibibyte              | 0                  | 0        |
+| Cloud Pub/Sub       | Message Delivery Basic                                                     | Usage     | 2022-03-01       | 2022-03-31     | 0.003        | tebibyte              | 0                  | 0        |
+| Cloud Pub/Sub       | Intra-region data delivery                                                 | Usage     | 2022-03-01       | 2022-03-31     | 1.102        | gibibyte              | 0                  | 0        |
 
 ## Conclusion
 
