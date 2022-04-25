@@ -1,5 +1,9 @@
-on: [pull_request]
-name: Deploy
+on:
+  pull_request:
+    paths:
+      - content/**
+      - static/**
+name: Build
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,4 +18,4 @@ jobs:
 
       - name: Build
         run: hugo --destination dist/ --minify --config=config.toml
-        
+
