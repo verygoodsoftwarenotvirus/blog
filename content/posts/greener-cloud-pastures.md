@@ -1,7 +1,7 @@
 ---
 title: "Greener Cloud Pastures"
 date: 2022-03-29T23:04:56-06:00
-draft: true
+draft: false
 ---
 
 ## Preface
