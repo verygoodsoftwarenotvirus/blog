@@ -4,13 +4,6 @@ date: 2019-08-01T11:11:13-06:00
 draft: false
 ---
 
-<!-- markdownlint-disable MD033 -->
-<audio controls style="width: 100%;">
-  <source src="/03-porktrack/sounds/transcript.mp3" type="audio/mpeg">
-Your browser does not support the audio element.
-</audio>
-<p style="text-align: center; "><sup><sup>audio recording of this blog post provided for visually impaired readers</sup></sup></p>
-
 ## A time gone by
 
 I'd like to tell the story of how I got into the software engineering field, but like any post I make on this website, I feel the need to justify the endeavor first. I'm sharing because whenever I've shared it with folks in the past, they seem to have enjoyed it and almost always ask clarifying questions in disbelief, which I think is a safe indicator that the story is maybe good. I'm also interested in simply documenting this story while the details are still immediately recallable.
