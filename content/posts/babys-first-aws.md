@@ -1,8 +1,15 @@
----
-title: "Baby's First AWS Deployment"
-date: 2022-01-29T23:34:37-06:00
-draft: false
----
++++
+title = "Baby's First AWS Deployment"
+date = "2022-01-29T23:34:37-06:00"
+author = "verygoodsoftwarenotvirus"
+authorTwitter = "vgsnv"
+cover = ""
+tags = []
+keywords = []
+description = ""
+showFullContent = false
+readingTime = true
++++
 
 ### Preface
 
