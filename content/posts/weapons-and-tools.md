@@ -1,7 +1,15 @@
----
-title: 'Weapons and Tools'
-date: 2019-02-26T19:04:35-06:00
----
++++
+title = "Weapons and Tools"
+date = "2019-02-26T19:04:35-06:00"
+author = "verygoodsoftwarenotvirus"
+authorTwitter = "vgsnv"
+cover = ""
+tags = []
+keywords = []
+description = ""
+showFullContent = false
+readingTime = true
++++
 
 A hammer wielded by a worker trained to hit things is a tool. A hammer wielded by someone intent on doing harm is a weapon. The hammer requires no metamorphosis yet starts as a tool and ends as a weapon. So, there must be a threshold where the tool becomes a weapon, what is it?
 

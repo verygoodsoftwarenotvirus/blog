@@ -11,7 +11,7 @@ $(OUTPUT_DIR):
 
 .PHONY: preview
 preview:
-	hugo server -D --port=8080
+	hugo server --buildDrafts --port=8080 --noHTTPCache --cleanDestinationDir
 
 .PHONY: publish-gcloud
 publish-gcloud: clean $(OUTPUT_DIR)

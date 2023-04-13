@@ -1,7 +1,15 @@
----
-title: 'Using Docker to compile Golang plugins on OS X'
-date: 2018-01-11T20:23:35-06:00
----
++++
+title = "Using Docker to compile Golang plugins on OS X"
+date = "2018-01-11T20:23:35-06:00"
+author = "verygoodsoftwarenotvirus"
+authorTwitter = "vgsnv"
+cover = ""
+tags = []
+keywords = []
+description = ""
+showFullContent = false
+readingTime = true
++++
 
 Okay so this might be old news to some of ya'll, but I just got it figured out, and any time you figure something out that didn't have an immediate answer online, you should blog about it, right?
 

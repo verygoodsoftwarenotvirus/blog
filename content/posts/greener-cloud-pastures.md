@@ -1,8 +1,15 @@
----
-title: "Greener Cloud Pastures"
-date: 2022-03-29T23:04:56-06:00
-draft: false
----
++++
+title = "Greener Cloud Pastures"
+date = "2022-03-29T23:04:56-06:00"
+author = "verygoodsoftwarenotvirus"
+authorTwitter = "vgsnv"
+cover = ""
+tags = []
+keywords = []
+description = ""
+showFullContent = false
+readingTime = true
++++
 
 ## Preface
 
