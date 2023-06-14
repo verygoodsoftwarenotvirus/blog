@@ -2,7 +2,6 @@
 title = "What I Learned at Founders Academy"
 date = "2022-07-29T12:45:12-05:00"
 author = "verygoodsoftwarenotvirus"
-authorTwitter = "vgsnv"
 cover = ""
 tags = []
 keywords = []
