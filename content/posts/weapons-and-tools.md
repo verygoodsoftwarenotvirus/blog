@@ -2,7 +2,6 @@
 title = "Weapons and Tools"
 date = "2019-02-26T19:04:35-06:00"
 author = "verygoodsoftwarenotvirus"
-authorTwitter = "vgsnv"
 cover = ""
 tags = []
 keywords = []

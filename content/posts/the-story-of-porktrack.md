@@ -2,7 +2,6 @@
 title = "Porktrack: how I turned a goofy idea into a real career"
 date = "2019-08-01T11:11:13-06:00"
 author = "verygoodsoftwarenotvirus"
-authorTwitter = "vgsnv"
 cover = ""
 tags = []
 keywords = []

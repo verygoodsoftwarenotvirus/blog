@@ -2,7 +2,6 @@
 title = "Using Docker to compile Golang plugins on OS X"
 date = "2018-01-11T20:23:35-06:00"
 author = "verygoodsoftwarenotvirus"
-authorTwitter = "vgsnv"
 cover = ""
 tags = []
 keywords = []
