@@ -59,7 +59,7 @@ Having things configured this way makes it trivial to switch between logging ins
 
 # New Toys
 
-Recently Go 1.21 introduced [the slog package](https://pkg.go.dev/log/slog), which is the standard library implementation of a structured logger like those I mentioned above. I immediately wanted to make use of it (and I think it might even make sense to one day rip my interface out and just use a `*slog.Logger` instead). To make use of it in the meantime, I was able to start making use of slog in my app by:
+Recently Go 1.21 introduced [the slog package](https://pkg.go.dev/log/slog), which is the standard library implementation of a structured logger like those I mentioned above. I wanted to use it, and I was able to start doing so in my app by:
 
 1. writing a `slog`-compatible implementation of the `logging.Logger` interface and 
 2. changing the config to specify that the `slog` logging provider should be used.
