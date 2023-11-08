@@ -24,7 +24,7 @@ The problem with generated files is that they can become out of data. Someone on
 
 How do I prevent these inevitabilities from ruining any given evening? I require that when myself or a team member introduces a new class of generated files, we also introduce a CI step that runs the required generation command, and fails if git detects changes afterwards. Here’s my sqlc setup, for instance:
 
-```go
+```yaml
 on:
   pull_request:
     paths:
@@ -60,4 +60,4 @@ jobs:
         run: git diff --exit-code
 ```
 
-This installs Go, checks out the code, runs the query generation command, and asks Git for any diffs and to fail if they’re present. Note that, in my case, I’m using [make](https://www.gnu.org/software/make/manual/make.html) and [Docker](https://www.docker.com/) to compile the sqlc queries with `docker run --rm --volume $(PWD):/src --workdir /src --user $(MYSELF):$(MY_GROUP) $(SQL_GENERATOR_IMAGE) compile --no-database --no-remote`, but in the event I couldn’t or weren’t, you’d also then be able to document exactly what tools are necessary for generated which files, which helps newcomers to the repository.
+This installs Go, checks out the code, runs the query generation command, and asks Git for any diffs and to fail if they’re present. Note that, in my case, I’m using [make](https://www.gnu.org/software/make/manual/make.html) and [Docker](https://www.docker.com/) to compile the sqlc queries with `docker run --rm --volume $(shell pwd):/src --workdir /src --user $(shell id -u):$(shell id -g) sqlc/sqlc:1.22.0 compile --no-database --no-remote`, but in the event I couldn’t or weren’t, you’d also then be able to document exactly what tools are necessary for generated which files, which helps newcomers to the repository.
