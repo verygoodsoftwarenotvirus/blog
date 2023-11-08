@@ -1,5 +1,5 @@
 +++
-title = "My policy on generated files"
+title = "Preventing generated files from causing problems"
 date = "2023-08-29T23:40:17-06:00"
 author = "verygoodsoftwarenotvirus"
 cover = ""
