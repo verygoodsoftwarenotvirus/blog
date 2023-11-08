@@ -3,6 +3,11 @@ on:
     paths:
       - content/**
       - static/**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 name: Build
 jobs:
   build:
