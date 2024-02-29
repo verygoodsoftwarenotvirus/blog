@@ -131,15 +131,13 @@ Wouldn’t you know it, we have all the aforementioned errors handled! If there�
 
 The Python I posted above, while it certainly could be written a better way, doesn’t look meaningfully different from 90%+ of the Python I’ve ever had to work with professionally. My only major gripe with the Go variant is that it doesn’t check the length of row before accessing that index, but that’s ChatGPT for you.
 
-There are folks who will say that the Go version is less readable than the Python version. For me, this depends on how you measure readability. If you measure it from the time you first see the code to when you understand what it’s trying to accomplish, I could entertain the suggestion that Python wins. If you measure it from the perspective of how long it takes to suss out what the different execution paths or outcomes could possibly be from a given chunk of code, I think Go wins. 
+There are folks who will say that the Go version is less readable than the Python version. For me, this depends on how you measure readability. If you measure it from the time you first see the code to when you understand what it’s trying to accomplish, I could entertain the suggestion that Python wins. If you measure it from the perspective of how long it takes to suss out what the different execution paths or outcomes could possibly be from a given chunk of code, I think Go wins. Even if you didn’t know that file reads could fail, or network requests could fail, you would understand that both are possible after reading the Go code, but not from the Python code.
 
-Even if you didn’t know that file reads could fail, or network requests could fail, you would understand that both are possible after reading the Go code, and you wouldn’t learn anything from the Python code.
-
-To take this one step further, I’m sort of of the opinion that if you don’t care enough about what could go wrong in your program that you would rather wrap up dozens of lines in a single `try/catch`, then you really don’t care about having software that is resilient. That’s your prerogative. Myself, I’d rather see a billion `if err != nil` statements in my code than have an error occur that I cannot quickly and effectively diagnose because it comes with a bunch of unrelated noise.
+I’d rather see a billion `if err != nil` statements in my code than have an error occur that I cannot quickly and effectively diagnose because it comes with a bunch of unrelated noise.
 
 ## Result types in Go
 
-I frequently see the [RIIR](https://transitiontech.ca/random/RIIR) crew suggest that the only thing that would make Go tolerable would be some equivalent of the Result type in Rust. The Result type allows for you to return one value that can contain either the anticipated value, or an error, and not both. So you sort of get the chance to collapse the standard `res, err := someOperation()` pattern you see in a lot of Go into just `res := someOperation()`.
+I've seen the [RIIR](https://transitiontech.ca/random/RIIR) crew suggest that one of the things that would make Go tolerable to them would be some equivalent of the `Result` type in Rust. The `Result` type allows for you to return one value that can contain either the anticipated value, or an error, but not both. So you sort of get the chance to collapse the standard `res, err := someOperation()` pattern you see in a lot of Go into just `res := someOperation()`.
 
 I asked ChatGPT to `Please write some rust code that returns a Result container with a string, have it check the current time and return an error if the unix timestamp is even or a positive result if the unix timestamp is odd`:
 
@@ -164,9 +162,9 @@ fn main() {
 }
 ```
 
-This is, frankly, neat, and not a bad idea. There’s an alternative universe where Go had generics from the jump and the Result type was implemented/utilized in the standard library, and it’s not the worst outcome I could think of. There [are libraries](https://github.com/MisterKaiou/go-functional) you can use now, post-generics, that do just this, and [an old and long-closed proposal](https://github.com/golang/go/issues/19991) to add it to Go specifically cites the Rust variant.
+This is, frankly, neat, and not a bad idea. There’s an alternative universe where Go had generics from the jump and the `Result` type was implemented/utilized in the standard library, and it’s not the worst outcome I could think of. There [are libraries](https://github.com/MisterKaiou/go-functional) you can use now, post-generics, that do just this, and [an old and long-closed proposal](https://github.com/golang/go/issues/19991) to add it to Go specifically cites the Rust variant.
 
-The only opposition I have to the Result type in Go is that we wouldn’t be able to make use of it in the standard library without either breaking backwards compatibility, or issuing new `/v2` variants of existing packages (like the recently-released `math/rand/v2`), which then means we’ll have some libraries and programs that use the old style with one return value, some with the new style, and many instances of confused programmers using the wrong one. It would basically be the Go equivalent of the Python 2/3 transition debacle, and well, no thank you.
+The only opposition I have to the Result type in Go is that we wouldn’t be able to make use of it in the standard library without either breaking backwards compatibility, writing `Result` variants of existing API calls (so `NewRequest`, `NewRequestWithContext`, and `NewRequestWithContextAndResult`), or issuing new `/v2` variants of existing packages (like the [recently-released `math/rand/v2` package](https://tip.golang.org/doc/go1.22#math_rand_v2)), which then means we’ll have some libraries and programs that use the old style with one return value, some with the new style, and many instances of confused programmers using the wrong one. It would be as close to a Go equivalent of the Python 2/3 transition debacle as I think we could manage.
 
 I also don’t really think it meaningfully improves readability. Compare the above Rust code to the Go equivalent:
 
@@ -189,13 +187,14 @@ func checkCurrentTime() (string, error) {
 func main() {
 	result, err := checkCurrentTime()
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+	} else {
+		fmt.Println(result)
 	}
-	fmt.Println(result)
 }
 ```
 
-Our main function is 5 lines, compared to Rust’s 4. I suppose that adds up over time and with a larger project, but I still just don’t think it’s some massive win for readability.
+Our main function is 6 lines, compared to Rust’s 4. I suppose that adds up over time and with a larger project, but I still just don’t think it’s some massive win for readability.
 
 ## Conclusion
 
