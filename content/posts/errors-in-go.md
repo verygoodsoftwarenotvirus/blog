@@ -12,7 +12,9 @@ readingTime = true
 
 Spend any amount of time in programming circles, and just as the sun rises and falls, you are certain to hear someone complain about error handling in Go. These complaints are, anecdotally, rarely well thought out suggestions on what error handling could or should be like in a language like Go, but often merely boil down to “I don’t like having to look at it”.
 
-You’ll mainly see people complain about having to litter their apps with `if err != nil`, how they feel it makes the code verbose, and how they miss just writing ten very consequential lines one after the other in more dynamic languages like Python or Javascript. Less often, you’ll see folks bemoan the lack of a stdlib-defined [Result type](https://doc.rust-lang.org/std/result/), which would have either a value or an error, like in Rust. Every now and then you’ll see someone bemoan how error handling works in highly concurrent Go programs, or how [some errors can be nil and not-nil simultaneously](https://stackoverflow.com/questions/53892508/golang-returning-nil-does-not-return-nil).
+You’ll mainly see people complain about having to litter their apps with `if err != nil`, how they feel it makes the code verbose, and how they miss just writing ten very consequential lines one after the other in more dynamic languages like Python or Javascript. 
+
+Less often, you’ll see folks bemoan the lack of a stdlib-defined [Result type](https://doc.rust-lang.org/std/result/), which would have either a value or an error, like in Rust. Every now and then you’ll see someone bemoan how error handling works in highly concurrent Go programs, or how [some errors can be nil and not-nil simultaneously](https://stackoverflow.com/questions/53892508/golang-returning-nil-does-not-return-nil).
 
 ## In defense of `if err != nil`
 
@@ -58,72 +60,73 @@ I asked ChatGPT to write the same code, but in Go:
 package main
 
 import (
-    "encoding/csv"
-    "encoding/json"
-    "fmt"
-    "net/http"
-    "os"
+	"encoding/csv"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+	"os"
 )
 
 func fetchData(url string) (map[string]string, error) {
-    response, err := http.Get(url)
-    if err != nil {
-        return nil, err
-    }
-    defer response.Body.Close()
+	response, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
 
-    var data map[string]string
-    if err := json.NewDecoder(response.Body).Decode(&data); err != nil {
-        return nil, err
-    }
+	var data map[string]string
+	if err := json.NewDecoder(response.Body).Decode(&data); err != nil {
+		return nil, err
+	}
 
-    return data, nil
+	return data, nil
 }
 
 func processCSV(csvFile string) error {
-    file, err := os.Open(csvFile)
-    if err != nil {
-        return err
-    }
-    defer file.Close()
+	file, err := os.Open(csvFile)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
 
-    reader := csv.NewReader(file)
-    if _, err = reader.Read(); err != nil && err.Error() != "EOF" {
-        return err
-    }
+	reader := csv.NewReader(file)
+	if _, err = reader.Read(); err != nil && err.Error() != "EOF" {
+		return err
+	}
 
-    for {
-        row, err := reader.Read()
-        if err != nil {
-            if err.Error() == io.EOF {
-                break
-            }
-            return err
-        }
+	for {
+		row, err := reader.Read()
+		if err != nil {
+			if err.Error() == io.EOF {
+				break
+			}
+			return err
+		}
 
-        url := row[0]
-        data, err := fetchData(url)
-        if err != nil {
-            fmt.Printf("Failed to fetch data from %s: %v\n", url, err)
-            continue
-        }
+		url := row[0]
+		data, err := fetchData(url)
+		if err != nil {
+			fmt.Printf("Failed to fetch data from %s: %v\n", url, err)
+			continue
+		}
 
-        fmt.Printf("Data from %s:\n", url)
-        for key, value := range data {
-            fmt.Printf("%s: %s\n", key, value)
-        }
+		fmt.Printf("Data from %s:\n", url)
+		for key, value := range data {
+			fmt.Printf("%s: %s\n", key, value)
+		}
 
-        fmt.Println()
-    }
+		fmt.Println()
+	}
 
-    return nil
+	return nil
 }
 
 func main() {
-    csvFile := "your_csv_file.csv"
-    if err := processCSV(csvFile); err != nil {
-        fmt.Printf("Error processing CSV: %v\n", err)
-    }
+	csvFile := "your_csv_file.csv"
+	if err := processCSV(csvFile); err != nil {
+		fmt.Printf("Error processing CSV: %v\n", err)
+	}
 }
 ```
 
@@ -131,7 +134,9 @@ Wouldn’t you know it, we have all the aforementioned errors handled! If there�
 
 The Python I posted above, while it certainly could be written a better way, doesn’t look meaningfully different from 90%+ of the Python I’ve ever had to work with professionally. My only major gripe with the Go variant is that it doesn’t check the length of row before accessing that index, but that’s ChatGPT for you.
 
-There are folks who will say that the Go version is less readable than the Python version. For me, this depends on how you measure readability. If you measure it from the time you first see the code to when you understand what it’s trying to accomplish, I could entertain the suggestion that Python wins. If you measure it from the perspective of how long it takes to suss out what the different execution paths or outcomes could possibly be from a given chunk of code, I think Go wins. Even if you didn’t know that file reads could fail, or network requests could fail, you would understand that both are possible after reading the Go code, but not from the Python code.
+There are folks who will say that the Go version is less readable than the Python version. For me, this depends on how you measure readability. If you measure it from the time you first see the code to when you understand what it’s trying to accomplish, I could entertain the suggestion that Python wins. If you measure it from the perspective of how long it takes to suss out what the different execution paths or outcomes could possibly be from a given chunk of code, I think Go wins. 
+
+Even if you didn’t know that file reads could fail, or network requests could fail, you would understand that both are possible after reading the Go code, but not from the Python code.
 
 I’d rather see a billion `if err != nil` statements in my code than have an error occur that I cannot quickly and effectively diagnose because it comes with a bunch of unrelated noise.
 
@@ -194,8 +199,8 @@ func main() {
 }
 ```
 
-Our main function is 6 lines, compared to Rust’s 4. I suppose that adds up over time and with a larger project, but I still just don’t think it’s some massive win for readability.
+Our main function is 6 lines, compared to Rust’s 4. I suppose that adds up over time and with a larger project, but I still just don’t think it’s the massive win for readability that some folks proclaim it to be.
 
 ## Conclusion
 
-None of this post was meant to denigrate Python, Rust, Javascript, or any other language, or its fans. I just think a lot of the criticism around this particular element of the Go programming language is missing the forest for the trees. I wish debuggable issues and resilient software upon everyone who reads this.
+None of this post was meant to denigrate Python, Rust, Javascript, or any other language, or its fans, or indeed anything at all. I just think a lot of the criticism around this particular element of the Go programming language is missing the forest for the trees.
