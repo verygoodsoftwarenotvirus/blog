@@ -608,7 +608,7 @@ func TestRenderToJSON(T *testing.T) {
 	T.Run("with invalid structure", func(t *testing.T) {
 		t.Parallel()
 
-		x := &testBreakableStruct{Thing: "stuff"}
+		x := &BreakableStruct{Thing: "stuff"}
 		actual, err := json.Marshal(x)
 
 		assert.Nil(t, actual)
