@@ -22,5 +22,8 @@ jobs:
           hugo-version: '0.92.1'
 
       - name: Build
-        run: hugo --destination dist/ --minify --config=config.toml
+        run: hugo --destination dist/ --minify --config=ru_config.toml
+
+      - name: Build
+        run: hugo --destination dist2/ --minify --config=backup_config.toml
 

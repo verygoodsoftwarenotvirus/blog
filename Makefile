@@ -1,5 +1,5 @@
 OUTPUT_DIR     := dist
-CONFIG_FILE    := config.toml
+RU_CONFIG_FILE    := ru_config.toml
 GCLOUD_BUCKET  := blog.verygoodsoftwarenotvirus.ru
 BLOG_GENERATOR := klakegg/hugo:0.92.1
 PREVIEW_PORT   := 8080
@@ -21,7 +21,7 @@ pull_image:
 	@docker pull --quiet $(BLOG_GENERATOR)
 
 $(OUTPUT_DIR): pull_image
-	$(GENERATOR_CMD) --destination $(OUTPUT_DIR) --minify --config=config.toml
+	$(GENERATOR_CMD) --destination $(OUTPUT_DIR) --minify --config=$(RU_CONFIG_FILE)
 
 .PHONY: preview
 preview: pull_image
