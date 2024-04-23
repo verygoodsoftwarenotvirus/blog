@@ -24,3 +24,6 @@ jobs:
       - name: Build
         run: hugo --destination dist/ --minify --config=ru_config.toml
 
+      - name: Build
+        run: hugo --destination dist2/ --minify --config=backup_config.toml
+
