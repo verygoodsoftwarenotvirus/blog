@@ -2,8 +2,8 @@ on: [pull_request]
   # push:
   #   branches:
   #     - main
-  
-name: Deploy
+
+name: Deploy Main Site
 jobs:
   build:
     runs-on: ubuntu-latest
