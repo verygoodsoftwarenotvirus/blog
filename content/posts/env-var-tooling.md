@@ -3,6 +3,7 @@ title = "The Gift of Good Tooling"
 date = "2025-01-01T11:34:37-06:00"
 author = "verygoodsoftwarenotvirus"
 cover = ""
+draft = true
 tags = []
 keywords = []
 description = ""
