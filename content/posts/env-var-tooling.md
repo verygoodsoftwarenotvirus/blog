@@ -258,16 +258,24 @@ This file contains a reference of all valid service environment variables.
 */
 
 const (
-	// AnalyticsCircuitBreakerErrorRateEnvVarKey is the environment variable name to set in order to override `config.Analytics.CircuitBreakerConfig.ErrorRate`.
-	AnalyticsCircuitBreakerErrorRateEnvVarKey = "SIDE_PROJECT_ANALYTICS_CIRCUIT_BREAKER_ERROR_RATE"
+	// ObservabilityLoggingLevelEnvVarKey is the environment variable name to set in order to override `config.Observability.Logging.Level`.
+	ObservabilityLoggingLevelEnvVarKey = "SIDE_PROJECT_OBSERVABILITY_LOGGING_LEVEL"
 
-	// AnalyticsCircuitBreakerMinimumSampleThresholdEnvVarKey is the environment variable name to set in order to override `config.Analytics.CircuitBreakerConfig.MinimumSampleThreshold`.
-	AnalyticsCircuitBreakerMinimumSampleThresholdEnvVarKey = "SIDE_PROJECT_ANALYTICS_CIRCUIT_BREAKER_MINIMUM_SAMPLE_THRESHOLD"
+	// ObservabilityLoggingOutputFilepathEnvVarKey is the environment variable name to set in order to override `config.Observability.Logging.OutputFilepath`.
+	ObservabilityLoggingOutputFilepathEnvVarKey = "SIDE_PROJECT_OBSERVABILITY_LOGGING_OUTPUT_FILEPATH"
 
-	// AnalyticsPosthogCircuitBreakingErrorRateEnvVarKey is the environment variable name to set in order to override `config.Analytics.Posthog.CircuitBreakerConfig.ErrorRate`.
-	AnalyticsPosthogCircuitBreakingErrorRateEnvVarKey = "SIDE_PROJECT_ANALYTICS_POSTHOG_CIRCUIT_BREAKING_ERROR_RATE"
-	
-	
+	// ObservabilityLoggingProviderEnvVarKey is the environment variable name to set in order to override `config.Observability.Logging.Provider`.
+	ObservabilityLoggingProviderEnvVarKey = "SIDE_PROJECT_OBSERVABILITY_LOGGING_PROVIDER"
+
+	// ObservabilityMetricsOtelCollectionIntervalEnvVarKey is the environment variable name to set in order to override `config.Observability.Metrics.Otel.CollectionInterval`.
+	ObservabilityMetricsOtelCollectionIntervalEnvVarKey = "SIDE_PROJECT_OBSERVABILITY_METRICS_OTEL_COLLECTION_INTERVAL"
+
+	// ObservabilityMetricsOtelCollectionTimeoutEnvVarKey is the environment variable name to set in order to override `config.Observability.Metrics.Otel.CollectionTimeout`.
+	ObservabilityMetricsOtelCollectionTimeoutEnvVarKey = "SIDE_PROJECT_OBSERVABILITY_METRICS_OTEL_COLLECTION_TIMEOUT"
+
+	// ObservabilityMetricsOtelCollectorEndpointEnvVarKey is the environment variable name to set in order to override `config.Observability.Metrics.Otel.CollectorEndpoint`.
+	ObservabilityMetricsOtelCollectorEndpointEnvVarKey = "SIDE_PROJECT_OBSERVABILITY_METRICS_OTEL_COLLECTOR_ENDPOINT"
+
 	/* 
 	...and so on and so forth
 	*/
