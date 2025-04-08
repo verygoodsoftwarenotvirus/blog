@@ -1,5 +1,5 @@
 OUTPUT_DIR     := dist
-RU_CONFIG_FILE    := ru_config.toml
+RU_CONFIG_FILE := ru_config.toml
 GCLOUD_BUCKET  := blog.verygoodsoftwarenotvirus.ru
 BLOG_GENERATOR := klakegg/hugo:0.92.1
 PREVIEW_PORT   := 8080
