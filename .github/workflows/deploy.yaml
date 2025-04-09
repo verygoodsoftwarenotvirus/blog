@@ -3,7 +3,7 @@ on: # [pull_request]
     branches:
       - main
 
-name: Deploy Main Site
+name: Deploy
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,16 +17,16 @@ jobs:
           hugo-version: '0.92.1'
 
       - name: Build
-        run: hugo --destination dist/ --minify --config=ru_config.toml
+        run: hugo --destination dist/ --minify --config=backup_config.toml
 
       - name: Upload built blog
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: website
           path: dist/
           retention-days: 1
 
-  deploy:
+  backup:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
@@ -43,7 +43,35 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
 
       - name: Download built artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
+        with:
+          name: website
+          path: dist/
+
+      - name: Delete website
+        run: gsutil -m rm -a gs://verygoodsoftwarenotvirus.blog/**
+
+      - name: Deploy website
+        run: gsutil -m cp -r dist/* gs://verygoodsoftwarenotvirus.blog/
+
+  ru:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CLOUD_CREDENTIALS }}'
+
+      # Setup gcloud CLI
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Download built artifact
+        uses: actions/download-artifact@v4
         with:
           name: website
           path: dist/
