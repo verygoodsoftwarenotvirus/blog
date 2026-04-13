@@ -1,0 +1,21 @@
+{
+  "name": "blog",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/kit": "^2.57.1",
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "mdsvex": "^0.12.7",
+    "rehype-raw": "^7.0.0",
+    "svelte": "^5.55.3",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.8"
+  }
+}

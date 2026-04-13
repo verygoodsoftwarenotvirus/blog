@@ -1,0 +1,14 @@
+:root {
+	--accent: #ffa86a;
+	--accent-dim: rgba(255, 168, 106, 0.2);
+	--background: #141518;
+	--surface: #1c1d22;
+	--color: #e0e0e0;
+	--color-dim: rgba(224, 224, 224, 0.5);
+	--border: rgba(255, 255, 255, 0.08);
+	--font-mono: 'Fira Code', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas,
+		'DejaVu Sans Mono', monospace;
+	--max-width: 720px;
+	--phone: 684px;
+	--tablet: 900px;
+}

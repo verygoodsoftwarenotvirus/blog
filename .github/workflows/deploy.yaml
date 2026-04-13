@@ -1,4 +1,4 @@
-on: # [pull_request]
+on:
   push:
     branches:
       - main
@@ -11,13 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          hugo-version: '0.92.1'
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build
-        run: hugo --destination dist/ --minify --config=ru_config.toml
+        run: npm run build
 
       - name: Upload built blog
         uses: actions/upload-artifact@v4
@@ -38,7 +42,6 @@ jobs:
         with:
           credentials_json: '${{ secrets.GOOGLE_CLOUD_CREDENTIALS }}'
 
-      # Setup gcloud CLI
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
 
