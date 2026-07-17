@@ -6,7 +6,7 @@
 	const zoom = getContext('detail-zoom-level');
 </script>
 
-{#if zoom.level >= min}
+{#if (zoom?.level ?? 1) >= min}
 	<span class="detail-add">
 		{@render children?.()}
 	</span>

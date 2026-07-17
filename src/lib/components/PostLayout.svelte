@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 
 	let {
 		title = '',
@@ -8,8 +8,28 @@
 		tags = [],
 		readingTime = 0,
 		description = '',
+		detailLevels = 1,
 		children
 	} = $props();
+
+	let pageZoomLevel = $state(1);
+
+	setContext('detail-zoom-level', {
+		get level() {
+			return pageZoomLevel;
+		},
+		set level(v) {
+			pageZoomLevel = v;
+		}
+	});
+
+	function getLabel(level, total) {
+		if (total <= 2) return level === 1 ? 'Brief' : 'Detailed';
+		if (total === 3) return ['Brief', 'Standard', 'Detailed'][level - 1] || `Level ${level}`;
+		if (total === 4)
+			return ['Brief', 'Standard', 'Detailed', 'Maximum'][level - 1] || `Level ${level}`;
+		return `Level ${level}`;
+	}
 
 	onMount(() => {
 		if (document.querySelector('.bluesky-embed')) {
@@ -40,6 +60,24 @@
 		});
 	}
 </script>
+
+{#if detailLevels >= 2}
+	<div class="page-detail-bar">
+		<div class="page-detail-inner">
+			<label class="detail-zoom-label" for="page-detail-slider">Detail</label>
+			<input
+				id="page-detail-slider"
+				type="range"
+				min="1"
+				max={detailLevels}
+				step="1"
+				bind:value={pageZoomLevel}
+				class="detail-zoom-slider"
+			/>
+			<span class="detail-zoom-value">{getLabel(pageZoomLevel, detailLevels)}</span>
+		</div>
+	</div>
+{/if}
 
 <article class="post">
 	<header class="post-header">

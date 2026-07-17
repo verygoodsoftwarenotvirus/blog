@@ -6,7 +6,7 @@
 	const zoom = getContext('detail-zoom-level');
 </script>
 
-{#if zoom.level === level}
+{#if (zoom?.level ?? 1) === level}
 	<span class="detail-replace">
 		{@render children?.()}
 	</span>

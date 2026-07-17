@@ -245,7 +245,36 @@ a:hover {
 	margin: 16px 0;
 }
 
-/* Detail zoom */
+/* Page-level detail bar — sticky at the top of the viewport */
+.page-detail-bar {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	margin: -32px calc(-1 * 24px) 24px;
+	background: var(--surface);
+	border-bottom: 1px solid var(--border);
+	backdrop-filter: blur(6px);
+}
+
+.page-detail-inner {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: 10px 24px;
+}
+
+@media (max-width: 684px) {
+	.page-detail-bar {
+		margin: -32px calc(-1 * 16px) 24px;
+	}
+	.page-detail-inner {
+		padding: 10px 16px;
+	}
+}
+
+/* Detail zoom (scoped, inside a <DetailZoom> block) */
 .detail-zoom-controls {
 	display: flex;
 	align-items: center;
