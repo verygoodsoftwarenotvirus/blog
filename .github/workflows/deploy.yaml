@@ -1,9 +1,14 @@
-on: # [pull_request]
+on:
   push:
     branches:
       - main
 
 name: Deploy
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,13 +16,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          hugo-version: '0.92.1'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run check
 
       - name: Build
-        run: hugo --destination dist/ --minify --config=ru_config.toml
+        run: npm run build
 
       - name: Upload built blog
         uses: actions/upload-artifact@v4
@@ -30,15 +42,11 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - id: auth
         uses: google-github-actions/auth@v1
         with:
           credentials_json: '${{ secrets.GOOGLE_CLOUD_CREDENTIALS }}'
 
-      # Setup gcloud CLI
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
 
@@ -48,8 +56,8 @@ jobs:
           name: website
           path: dist/
 
-      - name: Delete website
-        run: gsutil -m rm -a gs://blog.verygoodsoftwarenotvirus.ru/**
-
+      # rsync -d mirrors the bucket to dist/ in a single pass: it adds and
+      # overwrites before deleting what's gone, so the site is never empty
+      # mid-deploy, and it succeeds against an empty bucket (unlike `rm **`).
       - name: Deploy website
-        run: gsutil -m cp -r dist/* gs://blog.verygoodsoftwarenotvirus.ru/
+        run: gsutil -m rsync -d -r dist/ gs://blog.verygoodsoftwarenotvirus.ru/

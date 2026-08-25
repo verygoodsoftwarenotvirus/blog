@@ -1,0 +1,28 @@
+{
+  "name": "blog",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "prepare": "svelte-kit sync || echo \"\""
+  },
+  "type": "module",
+  "devDependencies": {
+    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/kit": "^2.57.1",
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "@types/node": "^26.3.0",
+    "mdsvex": "^0.12.7",
+    "rehype-raw": "^7.0.0",
+    "svelte": "^5.55.3",
+    "svelte-check": "^4.7.6",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.8"
+  },
+  "engines": {
+    "node": ">=22.12"
+  }
+}
