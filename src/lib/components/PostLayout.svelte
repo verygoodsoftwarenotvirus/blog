@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { onMount, setContext } from 'svelte';
 
 	let {
@@ -23,7 +23,7 @@
 		}
 	});
 
-	function getLabel(level, total) {
+	function getLabel(level: number, total: number) {
 		if (total <= 2) return level === 1 ? 'Brief' : 'Detailed';
 		if (total === 3) return ['Brief', 'Standard', 'Detailed'][level - 1] || `Level ${level}`;
 		if (total === 4)
@@ -52,7 +52,7 @@
 		}
 	});
 
-	function formatDate(dateStr) {
+	function formatDate(dateStr: string) {
 		return new Date(dateStr).toLocaleDateString('en-US', {
 			year: 'numeric',
 			month: 'long',

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { setContext } from 'svelte';
 
 	let { levels = 3, children } = $props();
@@ -14,7 +14,7 @@
 		}
 	});
 
-	function getLabel(level, total) {
+	function getLabel(level: number, total: number) {
 		if (total <= 2) return level === 1 ? 'Brief' : 'Detailed';
 		if (total === 3) return ['Brief', 'Standard', 'Detailed'][level - 1] || `Level ${level}`;
 		return ['Brief', 'Standard', 'Detailed', 'Maximum'][level - 1] || `Level ${level}`;
