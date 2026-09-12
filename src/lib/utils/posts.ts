@@ -24,15 +24,31 @@ function estimateReadingTime(content: string): number {
 }
 
 export async function getAllPosts(): Promise<Post[]> {
-	const modules = import.meta.glob('/content/posts/**/*.md', { eager: true });
-	const rawModules = import.meta.glob('/content/posts/**/*.md', { eager: true, query: '?raw', import: 'default' });
+	const modules = {
+		...import.meta.glob('/content/posts/**/*.md', { eager: true }),
+		...(import.meta.env.DEV ? import.meta.glob('/content/drafts/**/*.md', { eager: true }) : {})
+	};
+	const rawModules = {
+		...import.meta.glob('/content/posts/**/*.md', { eager: true, query: '?raw', import: 'default' }),
+		...(import.meta.env.DEV
+			? import.meta.glob('/content/drafts/**/*.md', { eager: true, query: '?raw', import: 'default' })
+			: {})
+	};
 	const posts: Post[] = [];
 
 	for (const [filepath, module] of Object.entries(modules)) {
 		const mod = module as { metadata: Record<string, unknown>; default: ConstructorOfATypedSvelteComponent };
-		if (mod.metadata?.draft) continue;
+		// Anything under content/drafts/ is dev-only already (see vite.config.ts),
+		// so show it here -- that is the whole point of previewing a draft. The
+		// frontmatter flag still hides a post that lives in content/posts/, but
+		// it only affects listings, never whether the text is bundled.
+		const isDraft = filepath.startsWith('/content/drafts/');
+		if (!isDraft && mod.metadata?.draft) continue;
 
-		const relativePath = filepath.replace('/content/posts/', '').replace('.md', '');
+		const relativePath = filepath
+			.replace('/content/posts/', '')
+			.replace('/content/drafts/', '')
+			.replace('.md', '');
 		const parts = relativePath.split('/');
 		const slug = parts[parts.length - 1];
 

@@ -277,7 +277,7 @@ const (
 )
 ```
 
-Which documents not just every valid environment variable, but also the field name that it manipulates. As with any generated code in this project, this file [is checked for consistency in CI](https://blog.verygoodsoftwarenotvirus.ru/posts/generated-files/), so I can count on this being accurate and up to date, and I’m free to rename and move fields around at my leisure.
+Which documents not just every valid environment variable, but also the field name that it manipulates. As with any generated code in this project, this file [is checked for consistency in CI](/posts/generated-files/), so I can count on this being accurate and up to date, and I’m free to rename and move fields around at my leisure.
 
 This took me maybe a day or so to do, and if I never encounter a need to make use of this, it will technically have been wasted time. I know myself well enough, however, to know that if I experienced failing to change a value with an outdated environment variable that I had populated by hand, I’d be cursing myself for not spending the day. If I never endeavored to document it, and I had to trawl through this expansive config keeping prefixes in mind in order to deduce what the environment variable was, I’d be cursing myself for not spending the day.
 
