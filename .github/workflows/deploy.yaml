@@ -28,19 +28,57 @@ jobs:
       - name: Typecheck
         run: npm run check
 
-      - name: Build
+      # One build per host rather than one shared build. PUBLIC_SITE_URL is
+      # read during prerender, so the absolute URLs baked into index.xml
+      # (link, guid, atom:self) belong to whichever host we built for. A
+      # single artifact copied to both buckets would advertise .ru feed URLs
+      # to .dev subscribers.
+      - name: Build for .ru
         run: npm run build
+        env:
+          PUBLIC_SITE_URL: https://blog.verygoodsoftwarenotvirus.ru
 
-      - name: Upload built blog
+      - name: Stash .ru build
+        run: mv dist dist-ru
+
+      - name: Build for .dev
+        run: npm run build
+        env:
+          PUBLIC_SITE_URL: https://blog.verygoodsoftwarenotvirus.dev
+
+      - name: Stash .dev build
+        run: mv dist dist-dev
+
+      - name: Upload .ru build
         uses: actions/upload-artifact@v4
         with:
-          name: website
-          path: dist/
+          name: website-ru
+          path: dist-ru/
           retention-days: 1
 
-  ru:
+      - name: Upload .dev build
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-dev
+          path: dist-dev/
+          retention-days: 1
+
+  deploy:
     needs: [build]
     runs-on: ubuntu-latest
+    name: Deploy (${{ matrix.name }})
+    strategy:
+      # The .ru registration is on borrowed time; a failure there must not
+      # stop .dev from publishing, and vice versa.
+      fail-fast: false
+      matrix:
+        include:
+          - name: ru
+            artifact: website-ru
+            bucket: blog.verygoodsoftwarenotvirus.ru
+          - name: dev
+            artifact: website-dev
+            bucket: blog.verygoodsoftwarenotvirus.dev
     steps:
       - id: auth
         uses: google-github-actions/auth@v1
@@ -53,11 +91,11 @@ jobs:
       - name: Download built artifact
         uses: actions/download-artifact@v4
         with:
-          name: website
+          name: ${{ matrix.artifact }}
           path: dist/
 
       # rsync -d mirrors the bucket to dist/ in a single pass: it adds and
       # overwrites before deleting what's gone, so the site is never empty
       # mid-deploy, and it succeeds against an empty bucket (unlike `rm **`).
       - name: Deploy website
-        run: gsutil -m rsync -d -r dist/ gs://blog.verygoodsoftwarenotvirus.ru/
+        run: gsutil -m rsync -d -r dist/ gs://${{ matrix.bucket }}/
