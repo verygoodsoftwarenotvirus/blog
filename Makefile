@@ -1,5 +1,9 @@
-OUTPUT_DIR    := dist
-GCLOUD_BUCKET := blog.verygoodsoftwarenotvirus.ru
+OUTPUT_DIR := dist
+
+RU_BUCKET  := blog.verygoodsoftwarenotvirus.ru
+RU_URL     := https://blog.verygoodsoftwarenotvirus.ru
+DEV_BUCKET := blog.verygoodsoftwarenotvirus.dev
+DEV_URL    := https://blog.verygoodsoftwarenotvirus.dev
 
 .PHONY: install
 install:
@@ -7,7 +11,7 @@ install:
 
 .PHONY: clean
 clean:
-	rm -rf $(OUTPUT_DIR) .svelte-kit
+	rm -rf $(OUTPUT_DIR) $(OUTPUT_DIR)-ru $(OUTPUT_DIR)-dev .svelte-kit
 
 .PHONY: dev
 dev:
@@ -27,7 +31,24 @@ build: $(OUTPUT_DIR)
 preview: build
 	npm run preview
 
-# Manual deploy, for when Actions is unavailable. Mirrors the CI step exactly.
+# Manual deploy, for when Actions is unavailable. Mirrors the CI steps exactly:
+# one build per host, because PUBLIC_SITE_URL is baked into index.xml at
+# prerender time and each bucket needs its own absolute feed URLs.
+.PHONY: publish-ru
+publish-ru:
+	rm -rf $(OUTPUT_DIR)
+	PUBLIC_SITE_URL=$(RU_URL) npm run build
+	gsutil -m rsync -d -r $(OUTPUT_DIR)/ gs://$(RU_BUCKET)/
+
+.PHONY: publish-dev
+publish-dev:
+	rm -rf $(OUTPUT_DIR)
+	PUBLIC_SITE_URL=$(DEV_URL) npm run build
+	gsutil -m rsync -d -r $(OUTPUT_DIR)/ gs://$(DEV_BUCKET)/
+
+.PHONY: publish
+publish: publish-dev publish-ru
+
+# Kept as an alias so muscle memory and any old notes still work.
 .PHONY: publish-gcloud
-publish-gcloud: clean build
-	gsutil -m rsync -d -r $(OUTPUT_DIR)/ gs://$(GCLOUD_BUCKET)/
+publish-gcloud: publish

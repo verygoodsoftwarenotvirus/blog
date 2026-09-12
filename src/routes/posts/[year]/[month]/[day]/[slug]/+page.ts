@@ -16,12 +16,25 @@ export async function load({ params }) {
 	const { year, month, day, slug } = params;
 
 	try {
-		const post = await import(
-			`../../../../../../../content/posts/${year}/${month}/${day}/${slug}.md`
-		);
-		const raw = await import(
-			`../../../../../../../content/posts/${year}/${month}/${day}/${slug}.md?raw`
-		);
+		let post, raw;
+		try {
+			post = await import(
+				`../../../../../../../content/posts/${year}/${month}/${day}/${slug}.md`
+			);
+			raw = await import(
+				`../../../../../../../content/posts/${year}/${month}/${day}/${slug}.md?raw`
+			);
+		} catch (e) {
+			// Drafts are stripped to empty modules in production builds, so this
+			// branch only ever resolves to real content on the dev server.
+			if (!import.meta.env.DEV) throw e;
+			post = await import(
+				`../../../../../../../content/drafts/${year}/${month}/${day}/${slug}.md`
+			);
+			raw = await import(
+				`../../../../../../../content/drafts/${year}/${month}/${day}/${slug}.md?raw`
+			);
+		}
 		const posts = await getAllPosts();
 		const path = `${year}/${month}/${day}/${slug}`;
 		const match = posts.find((p) => p.metadata.path === path);
