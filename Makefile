@@ -33,18 +33,32 @@ preview: build
 
 # Manual deploy, for when Actions is unavailable. Mirrors the CI steps exactly:
 # one build per host, because PUBLIC_SITE_URL is baked into index.xml at
-# prerender time and each bucket needs its own absolute feed URLs.
+# prerender time and each bucket needs its own absolute feed URLs. Both paths
+# share scripts/deploy.sh so the cache headers cannot drift between them.
 .PHONY: publish-ru
 publish-ru:
 	rm -rf $(OUTPUT_DIR)
 	PUBLIC_SITE_URL=$(RU_URL) npm run build
-	gsutil -m rsync -d -r $(OUTPUT_DIR)/ gs://$(RU_BUCKET)/
+	./scripts/deploy.sh $(RU_BUCKET) $(OUTPUT_DIR)
 
 .PHONY: publish-dev
 publish-dev:
 	rm -rf $(OUTPUT_DIR)
 	PUBLIC_SITE_URL=$(DEV_URL) npm run build
-	gsutil -m rsync -d -r $(OUTPUT_DIR)/ gs://$(DEV_BUCKET)/
+	./scripts/deploy.sh $(DEV_BUCKET) $(OUTPUT_DIR)
+
+# One-time backfill. rsync only sets headers on objects it actually uploads,
+# so files that predate scripts/deploy.sh and have not changed since still
+# carry the old `max-age=3600`. Every .html is rebuilt each deploy and fixes
+# itself; long-lived images and fonts do not. Safe to re-run.
+.PHONY: retag-cache
+retag-cache:
+	for b in $(RU_BUCKET) $(DEV_BUCKET); do \
+		gsutil -m setmeta -h "Cache-Control:public, no-cache" \
+			"gs://$$b/**.html" "gs://$$b/**.xml" "gs://$$b/**.json"; \
+		gsutil -m setmeta -h "Cache-Control:public, max-age=31536000, immutable" \
+			"gs://$$b/_app/immutable/**"; \
+	done
 
 .PHONY: publish
 publish: publish-dev publish-ru
