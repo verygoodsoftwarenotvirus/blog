@@ -1,5 +1,5 @@
 ---
-title: "The End of an Era"
+title: "The End of verygoodsoftwarenotvirus.ru"
 date: "2026-09-12T14:22:41-05:00"
 author: "verygoodsoftwarenotvirus"
 ---
