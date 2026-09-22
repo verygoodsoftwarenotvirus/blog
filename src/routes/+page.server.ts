@@ -10,7 +10,8 @@ export async function load() {
 			path: p.metadata.path,
 			tags: p.metadata.tags,
 			description: p.metadata.description,
-			readingTime: p.metadata.readingTime
+			readingTime: p.metadata.readingTime,
+			draft: p.metadata.draft ?? false
 		}))
 	};
 }

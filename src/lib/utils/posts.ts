@@ -38,12 +38,10 @@ export async function getAllPosts(): Promise<Post[]> {
 
 	for (const [filepath, module] of Object.entries(modules)) {
 		const mod = module as { metadata: Record<string, unknown>; default: ConstructorOfATypedSvelteComponent };
-		// Anything under content/drafts/ is dev-only already (see vite.config.ts),
-		// so show it here -- that is the whole point of previewing a draft. The
-		// frontmatter flag still hides a post that lives in content/posts/, but
-		// it only affects listings, never whether the text is bundled.
-		const isDraft = filepath.startsWith('/content/drafts/');
-		if (!isDraft && mod.metadata?.draft) continue;
+		// Drafts stay out of the index, feeds, and prerendered routes in a real
+		// build, but stay listed under `vite dev` so they can be reviewed without
+		// having to know their URL by heart.
+		if (mod.metadata?.draft && !import.meta.env.DEV) continue;
 
 		const relativePath = filepath
 			.replace('/content/posts/', '')

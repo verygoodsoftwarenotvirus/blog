@@ -12,7 +12,9 @@
 		children
 	} = $props();
 
-	let pageZoomLevel = $state(1);
+	// Default to 'Standard': the Brief view hides every <Extra>, which is where
+	// most posts keep the substance. Clamped for posts with fewer levels.
+	let pageZoomLevel = $state(Math.min(2, detailLevels));
 
 	setContext('detail-zoom-level', {
 		get level() {
