@@ -347,3 +347,35 @@ a:hover {
 		font-size: 1.3rem;
 	}
 }
+
+/* <D> and <Extra> wrap their children in a span so inline swaps stay inline.
+   When the wrapped chunk is block-level markdown, promote the wrapper so the
+   paragraphs and code fences inside it lay out normally. */
+.detail-replace:has(> p),
+.detail-replace:has(> pre),
+.detail-replace:has(> ul),
+.detail-replace:has(> ol),
+.detail-replace:has(> blockquote),
+.detail-replace:has(> figure),
+.detail-add:has(> p),
+.detail-add:has(> pre),
+.detail-add:has(> ul),
+.detail-add:has(> ol),
+.detail-add:has(> blockquote),
+.detail-add:has(> figure) {
+	display: block;
+}
+
+/* Only ever rendered under `vite dev`, where drafts are listed alongside
+   published posts — see getAllPosts(). */
+.draft-badge {
+	font-size: 0.6em;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	vertical-align: middle;
+	padding: 2px 6px;
+	margin-left: 8px;
+	border: 1px solid var(--accent);
+	border-radius: 3px;
+	color: var(--accent);
+}

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redis Cluster Tag Picker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Fira Code', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+    font-size: 14px;
+    background: #141518;
+    color: #e0e0e0;
+    padding: 1.25rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #f0f0f0;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.02em;
+  }
+
+  .subtitle {
+    color: #70707a;
+    font-size: 0.85rem;
+    margin-bottom: 2rem;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; }
+
+  /* Config row */
+  .config {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background: #1c1d22;
+    border: 1px solid #2a2b31;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .config-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .config-group label {
+    color: #a0a0a0;
+    white-space: nowrap;
+  }
+
+  .config-group input[type=number] {
+    width: 4rem;
+    background: #141518;
+    border: 1px solid #34353c;
+    border-radius: 4px;
+    color: #f0f0f0;
+    padding: 0.3rem 0.5rem;
+    font-family: inherit;
+    font-size: 1rem;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .config-group input[type=number]:focus {
+    border-color: #ffa86a;
+  }
+
+  .config-summary {
+    margin-left: auto;
+    color: #70707a;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .config-summary span { color: #a0a0a0; }
+
+  /* Keys textarea */
+  .keys-section { margin-bottom: 1.25rem; }
+
+  .keys-section label {
+    display: block;
+    color: #a0a0a0;
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  textarea {
+    width: 100%;
+    height: 130px;
+    background: #1c1d22;
+    border: 1px solid #2a2b31;
+    border-radius: 8px;
+    color: #f0f0f0;
+    padding: 0.75rem 1rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    outline: none;
+    line-height: 1.6;
+    transition: border-color 0.15s;
+  }
+
+  textarea:focus { border-color: #ffa86a; }
+  textarea::placeholder { color: #34353c; }
+
+  /* Results table */
+  .section-title {
+    color: #70707a;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .results-section { margin-bottom: 1.25rem; }
+
+  .table-wrap {
+    border: 1px solid #2a2b31;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead th {
+    background: #17181c;
+    color: #4a4b52;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 0.6rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #2a2b31;
+    font-weight: 500;
+  }
+
+  tbody tr { border-bottom: 1px solid #17181c; }
+  tbody tr:last-child { border-bottom: none; }
+
+  tbody td {
+    padding: 0.55rem 1rem;
+    vertical-align: middle;
+  }
+
+  .key-cell { color: #e0e0e0; }
+  .hash-key-cell { color: #a0a0a0; }
+
+  .hash-key-same { color: #4a4b52; font-style: italic; }
+
+  .slot-cell { color: #ffc79a; font-variant-numeric: tabular-nums; }
+
+  .node-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .node-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+  }
+
+  .empty-row td {
+    text-align: center;
+    color: #34353c;
+    padding: 1.5rem;
+    font-style: italic;
+  }
+
+  /* Node distribution */
+  .distribution-section {}
+
+  .node-row {
+    display: grid;
+    grid-template-columns: 6rem 10rem 1fr 5rem;
+    align-items: center;
+    gap: 1rem;
+    background: #1c1d22;
+    border: 1px solid #2a2b31;
+    border-radius: 6px;
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .node-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #e0e0e0;
+  }
+
+  .node-range { color: #70707a; font-size: 0.8rem; }
+
+  .bar-track {
+    background: #141518;
+    border-radius: 3px;
+    height: 8px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.2s ease;
+    min-width: 2px;
+  }
+
+  .key-count {
+    color: #a0a0a0;
+    font-size: 0.8rem;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* Node color palette — 12 distinct colors cycling */
+  :root {
+    --nc0:  #6366f1; /* indigo */
+    --nc1:  #22c55e; /* green */
+    --nc2:  #f59e0b; /* amber */
+    --nc3:  #ec4899; /* pink */
+    --nc4:  #14b8a6; /* teal */
+    --nc5:  #f97316; /* orange */
+    --nc6:  #a78bfa; /* violet */
+    --nc7:  #86efac; /* light green */
+    --nc8:  #fbbf24; /* yellow */
+    --nc9:  #f472b6; /* light pink */
+    --nc10: #2dd4bf; /* cyan */
+    --nc11: #fb923c; /* light orange */
+  }
+
+  /* Template input */
+  .config-group.template { flex: 1 1 24rem; }
+
+  .config-group input[type=text] {
+    flex: 1;
+    min-width: 12rem;
+    background: #141518;
+    border: 1px solid #34353c;
+    border-radius: 4px;
+    color: #f0f0f0;
+    padding: 0.35rem 0.6rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .config-group input[type=text]:focus { border-color: #ffa86a; }
+
+  /* The generated-key box is output, not input. */
+  textarea[readonly] {
+    background: #17181c;
+    color: #a0a0a0;
+    cursor: default;
+  }
+
+  textarea[readonly]:focus { border-color: #2a2b31; }
+
+  .tag-line {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+  }
+
+  .tag-line label { color: #70707a; font-size: 0.8rem; white-space: nowrap; }
+
+  .tag-line input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed #34353c;
+    color: #ffc79a;
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 0.15rem 0;
+    outline: none;
+  }
+
+  .notice {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #70707a;
+  }
+
+  .notice.error { color: #ffa86a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Redis Cluster Tag Picker</h1>
+  <p class="subtitle">Given a key template with a <code>%d</code> in it, finds the integers that spread the resulting keys evenly across a cluster</p>
+
+  <div class="config">
+    <div class="config-group template">
+      <label for="template">Key template</label>
+      <input type="text" id="template" value="{data:%d}" spellcheck="false">
+    </div>
+    <div class="config-group">
+      <label for="node-count">Nodes</label>
+      <input type="number" id="node-count" value="5" min="1" max="100">
+    </div>
+    <div class="config-group">
+      <label for="perNode">Keys per node</label>
+      <input type="number" id="perNode" value="4" min="1" max="20">
+    </div>
+    <div class="config-summary" id="summary"></div>
+  </div>
+
+  <div class="keys-section">
+    <label for="keys">Generated keys &mdash; grouped by the node they route to</label>
+    <textarea id="keys" readonly spellcheck="false"></textarea>
+    <div class="tag-line">
+      <label for="tags">Integers</label>
+      <input type="text" id="tags" readonly spellcheck="false">
+    </div>
+    <div class="notice" id="notice"></div>
+  </div>
+
+  <div class="results-section">
+    <div class="section-title">Results</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Hash key</th>
+            <th>Slot</th>
+            <th>Node</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="distribution-section">
+    <div class="section-title">Node Distribution</div>
+    <div id="distribution"></div>
+  </div>
+</div>
+<script>
+// ---------------------------------------------------------------------------
+// CRC16 — Redis XMODEM variant (poly 0x1021, init 0x0000, no reflect)
+// Generated from the polynomial to avoid hardcoded transcription errors.
+// ---------------------------------------------------------------------------
+const CRC16_TABLE = (() => {
+  const t = new Uint16Array(256);
+  for (let i = 0; i < 256; i++) {
+    let crc = i << 8;
+    for (let j = 0; j < 8; j++)
+      crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) & 0xffff : (crc << 1) & 0xffff;
+    t[i] = crc;
+  }
+  return t;
+})();
+
+function crc16(str) {
+  let crc = 0;
+  for (let i = 0; i < str.length; i++) {
+    crc = ((crc << 8) ^ CRC16_TABLE[((crc >> 8) ^ str.charCodeAt(i)) & 0xff]) & 0xffff;
+  }
+  return crc;
+}
+
+// Extract the hash key per Redis hash tag rules:
+// If key contains '{', find the first '}' after it; if the substring is non-empty, hash that.
+function hashKey(key) {
+  const open = key.indexOf('{');
+  if (open === -1) return key;
+  const close = key.indexOf('}', open + 1);
+  if (close === -1) return key;
+  const tag = key.slice(open + 1, close);
+  return tag.length > 0 ? tag : key;
+}
+
+function keySlot(key) {
+  return crc16(hashKey(key)) % 16384;
+}
+
+// Build node slot ranges for N primary nodes.
+// Returns array of { start, end } objects (inclusive).
+function buildNodeRanges(n) {
+  const base = Math.floor(16384 / n);
+  const extra = 16384 % n;
+  const ranges = [];
+  let start = 0;
+  for (let i = 0; i < n; i++) {
+    const size = base + (i < extra ? 1 : 0);
+    ranges.push({ start, end: start + size - 1 });
+    start += size;
+  }
+  return ranges;
+}
+
+function slotToNode(slot, ranges) {
+  // Binary search would be faster but N is small
+  for (let i = 0; i < ranges.length; i++) {
+    if (slot <= ranges[i].end) return i;
+  }
+  return ranges.length - 1;
+}
+
+// ---------------------------------------------------------------------------
+// Node color palette (12 colors, cycling)
+// ---------------------------------------------------------------------------
+const NODE_COLORS = [
+  '#6366f1','#22c55e','#f59e0b','#ec4899',
+  '#14b8a6','#f97316','#a78bfa','#86efac',
+  '#fbbf24','#f472b6','#2dd4bf','#fb923c',
+];
+
+function nodeColor(i) {
+  return NODE_COLORS[i % NODE_COLORS.length];
+}
+
+function nodeColorBg(i) {
+  return nodeColor(i) + '22'; // 13% opacity
+}
+
+// ---------------------------------------------------------------------------
+// The search
+//
+// Walk the integers from 0 upward, substituting each into the template and
+// asking which node the resulting key lands on. Keep the ones that land on a
+// node still short of its quota, stop once every node is full. The integers
+// that come back are arbitrary by construction -- that is the whole point,
+// they are chosen for where CRC16 sends them and for nothing else.
+// ---------------------------------------------------------------------------
+const MAX_SCAN = 2000000;
+
+function solve(template, nodeCount, perNode, ranges) {
+  const need = new Array(nodeCount).fill(perNode);
+  const found = Array.from({ length: nodeCount }, () => []);
+  let remaining = nodeCount * perNode;
+  let scanned = 0;
+
+  for (let d = 0; d < MAX_SCAN && remaining > 0; d++) {
+    scanned = d;
+    const key = template.split('%d').join(String(d));
+    const slot = keySlot(key);
+    const node = slotToNode(slot, ranges);
+
+    if (need[node] > 0) {
+      need[node]--;
+      remaining--;
+      found[node].push({ d, key, slot, node });
+    }
+  }
+
+  return { found, complete: remaining === 0, scanned };
+}
+
+// ---------------------------------------------------------------------------
+// Rendering
+// ---------------------------------------------------------------------------
+const MAX_ROWS = 250;
+
+function render() {
+  const template = document.getElementById('template').value;
+  const nodeCount = clampInt(document.getElementById('node-count').value, 1, 100);
+  const perNode = clampInt(document.getElementById('perNode').value, 1, 20);
+
+  const ranges = buildNodeRanges(nodeCount);
+  const slotsPerNode = Math.floor(16384 / nodeCount);
+  const notice = document.getElementById('notice');
+
+  document.getElementById('summary').innerHTML =
+    `<span>${nodeCount}</span> nodes &nbsp;·&nbsp; <span>${nodeCount * perNode}</span> keys ` +
+    `&nbsp;·&nbsp; ~<span>${slotsPerNode}</span> slots / node`;
+
+  if (!template.includes('%d')) {
+    notice.className = 'notice error';
+    notice.textContent = 'The template needs a %d for the integer to go into.';
+    document.getElementById('keys').value = '';
+    document.getElementById('tags').value = '';
+    renderRows([], ranges);
+    renderDistribution(ranges, new Array(nodeCount).fill(0), 0);
+    return;
+  }
+
+  const { found, complete, scanned } = solve(template, nodeCount, perNode, ranges);
+  const flat = found.flat();
+
+  document.getElementById('keys').value = found.map(g => g.map(e => e.key).join('\n')).join('\n');
+  document.getElementById('tags').value = flat.map(e => e.d).join(', ');
+
+  if (!complete) {
+    notice.className = 'notice error';
+    notice.textContent = `Gave up after ${MAX_SCAN.toLocaleString()} integers without filling every node.`;
+  } else {
+    notice.className = 'notice';
+    notice.textContent =
+      `Found ${flat.length} keys in the first ${(scanned + 1).toLocaleString()} integers` +
+      (flat.length > MAX_ROWS ? ` · table shows the first ${MAX_ROWS}` : '');
+  }
+
+  renderRows(flat, ranges);
+  renderDistribution(ranges, found.map(g => g.length), flat.length);
+}
+
+function clampInt(raw, lo, hi) {
+  const n = parseInt(raw);
+  if (isNaN(n)) return lo;
+  return Math.min(hi, Math.max(lo, n));
+}
+
+function renderRows(entries, ranges) {
+  const tbody = document.getElementById('results-body');
+
+  if (entries.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="4">Nothing to route yet</td></tr>';
+    return;
+  }
+
+  const shown = entries.slice(0, MAX_ROWS);
+  tbody.innerHTML = shown.map(e => {
+    const hk = hashKey(e.key);
+    const color = nodeColor(e.node);
+    const bg = nodeColorBg(e.node);
+    const hashDisplay = hk === e.key
+      ? `<span class="hash-key-same">same</span>`
+      : `<span class="hash-key-cell">${escHtml(hk)}</span>`;
+    return `<tr>
+      <td class="key-cell">${escHtml(e.key)}</td>
+      <td>${hashDisplay}</td>
+      <td class="slot-cell">${e.slot}</td>
+      <td><span class="node-badge" style="background:${bg};color:${color}">
+        <span class="node-dot" style="background:${color}"></span>
+        Node ${e.node}
+      </span></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderDistribution(ranges, counts, total) {
+  const maxCount = Math.max(1, ...counts);
+  document.getElementById('distribution').innerHTML = ranges.map((r, i) => {
+    const color = nodeColor(i);
+    const count = counts[i];
+    const pct = total > 0 ? Math.max(2, Math.round((count / maxCount) * 100)) : 0;
+    const label = count === 1 ? '1 key' : `${count} keys`;
+    return `<div class="node-row">
+      <div class="node-name">
+        <span class="node-dot" style="background:${color}"></span>
+        Node ${i}
+      </div>
+      <div class="node-range">${r.start}–${r.end}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${pct}%;background:${color}"></div>
+      </div>
+      <div class="key-count">${total > 0 ? label : ''}</div>
+    </div>`;
+  }).join('');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Wire up listeners
+document.getElementById('template').addEventListener('input', render);
+document.getElementById('node-count').addEventListener('input', render);
+document.getElementById('perNode').addEventListener('input', render);
+
+// Initial render
+render();
+</script>
+</body>
+</html>

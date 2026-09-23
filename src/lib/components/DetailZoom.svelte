@@ -3,7 +3,7 @@
 
 	let { levels = 3, children } = $props();
 
-	let zoomLevel = $state(1);
+	let zoomLevel = $state(Math.min(2, levels));
 
 	setContext('detail-zoom-level', {
 		get level() {

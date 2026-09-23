@@ -11,6 +11,7 @@
 		<article class="post-entry">
 			<h2>
 				<a href="/posts/{post.path}/">{post.title}</a>
+				{#if post.draft}<span class="draft-badge">draft</span>{/if}
 			</h2>
 			<div class="post-entry-meta">
 				<time datetime={post.date}>
