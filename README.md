@@ -36,3 +36,9 @@ and sits *behind* Cloudflare, so purging Cloudflare does not clear it. Left at
 the default, a new post is reachable at its own URL immediately -- a URL that
 was never cached -- while the homepage and feed keep serving an hour-old copy
 that does not list it.
+
+## Credits
+
+The favicon is the "technologist" emoji from [Twemoji](https://github.com/twitter/twemoji)
+v14.0.2 (`1f9d1-200d-1f4bb.svg`), Copyright 2020 Twitter, Inc and other
+contributors, licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/).
